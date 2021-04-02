@@ -31,7 +31,29 @@ const topBarLayoutStyle = theme => ({
   
   container: {
     marginBottom: '100px',
-  }
+  },
+
+  cardHeaderContainer: {
+    [theme.breakpoints.down('xs')]: {
+      width: '100%',
+      padding: 0
+    },
+  },
+  
+  menu: {
+    color: Colors.primaryColor,
+  },
+
+  menuIcon: {
+    backgroundColor: Colors.white,
+    marginRight: '10px'
+  },
+
+  languageMenu: {
+    color: Colors.primaryText, 
+    fontSize: '15px',
+    textTransform: 'none',
+  },
 });
 
 export default topBarLayoutStyle;

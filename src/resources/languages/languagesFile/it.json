@@ -1,0 +1,39 @@
+{
+  "project":{
+    "name": "Colosseum"
+  },
+
+  "general": {
+    "yes": "Sì",
+    "no": "No",
+    "edit": "Modifica",
+    "close": "Chiudi",
+    "back": "Indietro",
+    "next": "Avanti",
+    "save": "Salva",
+    "home": "Pagina Iniziale",
+    "cancel": "Annulla",
+    "profile": "Profile",
+    "logout": "Logout",
+    "manageUsers": "Gestione Utenti",
+    "manageCenters": "Gestione Centri",
+    "errorIncorrectData": "I dati inseriti non sono corretti!",
+    "errorEmptyField": "Alcuni campi non sono stati compilati!",
+    "errorNoConnection": "Nessuna connessione!",
+    "errorPasswordNotEquals": "Le password non corrispondono"
+  },
+
+  "home": {
+    "title": "Titolo Pagina",
+    "new": "Nuovo",
+    "go_to_details": "Vai alla Scheda",
+    "item": "items",
+    "search": "Cerca"
+  },
+  
+  "error": {
+    "generic": "Errore. Riprovare",
+    "no_user": "Nessun utente associato alla mail fornita",
+    "mail_fail": "Errore nell'invio della mail"
+  }
+}

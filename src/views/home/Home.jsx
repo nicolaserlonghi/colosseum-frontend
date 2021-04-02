@@ -1,7 +1,7 @@
 import React from "react"
 import withStyles from "@material-ui/core/styles/withStyles"
 import HomeStyle from "resources/styles/HomeStyle.jsx"
-import language from 'resources/Language.js'
+import { LanguageContext } from 'resources/languages/Language.js'
 import Spinner from 'views/spinner/Spinner.jsx'
 import Utils from 'helpers/Utils.js'
 
@@ -61,7 +61,7 @@ class Home extends React.Component {
         <Grid container>
           <Grid item xs={12} sm={6}>
             <Typography variant="h3" className={classes.title}>
-              {language.home.title}
+              {this.context.dictionary.home.title}
             </Typography>
           </Grid>
           <Hidden smDown><Grid item xs={3} /></Hidden>
@@ -72,7 +72,7 @@ class Home extends React.Component {
               startIcon={<UserIcon />}
               onClick={() => this.props.history.push('')}
             >
-              {language.home.new}
+              {this.context.dictionary.home.new}
             </Button>
           </Grid>
         </Grid>
@@ -83,7 +83,7 @@ class Home extends React.Component {
             <Paper className={classes.searchRoot}>
               <InputBase
                 className={classes.searchInput} 
-                placeholder={language.home.search}
+                placeholder={this.context.dictionary.home.search}
                 onChange={(event) => this.applyFilter(event.target.value)} 
                 value={this.state.filter}
               />                      
@@ -95,7 +95,7 @@ class Home extends React.Component {
             <Grid item xs={5}/>
             <Grid item xs={3}>
               <Typography variant="subtitle2" className={classes.recapText}>
-                {`${language.home.title} | ${this.state.filtered.length} ${language.home.item}`}
+                {`${this.context.dictionary.home.title} | ${this.state.filtered.length} ${this.context.dictionary.home.item}`}
               </Typography>
             </Grid>
           </Hidden>
@@ -106,4 +106,5 @@ class Home extends React.Component {
   }
 }
 
+Home.contextType = LanguageContext;
 export default withStyles(HomeStyle)(Home);

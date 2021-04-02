@@ -5,23 +5,24 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom"
 import detectBrowserLanguage from 'detect-browser-language'
 import routes from 'security/routes.js'
 
+// Multi Language
+import { LanguageProvider } from 'resources/languages/Language.js';
+
 // Font
 import 'typeface-roboto'
 
-
 import TopBarLayout from "resources/theme/layout/TopBarLayout.jsx"
-import language from "resources/Language.js"
 import Constants from 'Constants.js'
 import Colors from 'resources/Colors.js'
 
 const hist = createBrowserHistory()
-language.setLanguage(detectBrowserLanguage())
 
 // Set default body background color
 document.body.style.background = Colors.background;
 
 (async () => {
 	ReactDOM.render(
+		<LanguageProvider>
 			<BrowserRouter history={hist}>
 				<Switch>
 					{
@@ -32,6 +33,7 @@ document.body.style.background = Colors.background;
 					<Redirect from="/" to={Constants.defaultHomePage}  />
 				</Switch>
 			</BrowserRouter>
+		</LanguageProvider>
 		, 
 		document.getElementById("root")
 	)
