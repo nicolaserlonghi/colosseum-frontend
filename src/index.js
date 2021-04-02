@@ -2,7 +2,6 @@ import React from "react"
 import ReactDOM from "react-dom"
 import { createBrowserHistory } from "history"
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom"
-import detectBrowserLanguage from 'detect-browser-language'
 import routes from 'security/routes.js'
 
 // Multi Language

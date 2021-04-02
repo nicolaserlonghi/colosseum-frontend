@@ -19,7 +19,6 @@ import TopBarLayoutStyle from 'resources/theme/layout/layoutStyle/TopBarLayoutSt
 import { languageOptions } from 'resources/languages/FileLanguageIndex.js'
 import { LanguageContext } from 'resources/languages/Language.js'
 import Constant from "Constants.js"
-import { faAssistiveListeningSystems } from "@fortawesome/free-solid-svg-icons"
 
 
 const switchRoutes = (
@@ -58,7 +57,7 @@ class TopBarLayout extends React.Component {
   }
 
   render() {
-    const { classes, container, ...other } = this.props;
+    const { classes } = this.props;
     const { anchorEl } = this.state;
   
     return (
@@ -136,7 +135,6 @@ class TopBarLayout extends React.Component {
   }
 
   getFlag = (classStyle, keyCountryCode) => {
-    console.log(Constant.countryCodeLanguagesSupported[keyCountryCode])
     return (
       <Avatar className={classStyle} >
         <ReactCountryFlag

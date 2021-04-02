@@ -153,13 +153,15 @@ class WebSocketManager {
     let client = this.getClient();
     switch (client.readyState) {
       case client.CONNECTING:
-        return "connecting";
+        return "Connecting";
       case client.OPEN:
-        return "open";
+        return "Open";
       case client.CLOSING:
-        return "CLOSING";
+        return "Closing";
       case client.CLOSED:
-        return "CLOSED";
+        return "Clsoed";
+      default:
+        return "Unknown state";
     }
   }
 }
