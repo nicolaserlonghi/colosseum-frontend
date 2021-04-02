@@ -29,7 +29,8 @@
     "react-timekeeper": "^2.1.3",
     "recharts": "^2.0.9",
     "typeface-roboto": "^1.1.13",
-    "web-vitals": "^1.1.1"
+    "web-vitals": "^1.1.1",
+    "websocket": "^1.0.33"
   },
   "scripts": {
     "start": "react-scripts start",

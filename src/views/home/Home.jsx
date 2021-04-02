@@ -2,7 +2,6 @@ import React from "react"
 import withStyles from "@material-ui/core/styles/withStyles"
 import HomeStyle from "resources/styles/HomeStyle.jsx"
 import language from 'resources/Language.js'
-import Rest from 'api/RestManager.js'
 import Spinner from 'views/spinner/Spinner.jsx'
 import Utils from 'helpers/Utils.js'
 
@@ -22,6 +21,8 @@ import UserIcon from '@material-ui/icons/Person';
 import SearchIcon from '@material-ui/icons/Search'
 import RightIcon from '@material-ui/icons/KeyboardArrowRight';
 
+import WebSocket from 'api/WebSocketManager.js'
+
 class Home extends React.Component {
   constructor(props) {
     super(props)
@@ -35,9 +36,24 @@ class Home extends React.Component {
     }
   }
 
+  async componentDidMount() {
+    try {
+      let result = await WebSocket.sendJson({"GameList": {}});
+      console.log('result: ', result);
+    } catch(err) {
+      console.log('err: ', err);
+    }
+    try {
+      let result = await WebSocket.sendJson({"LobbySubscribe": {}});
+      console.log('result: ', result);
+    } catch(err) {
+      console.log('err: ', err);
+    }
+  }
+
   render() {
     const classes = this.props.classes
-        
+    
     return (
       <React.Fragment>
         <Spinner open={this.state.loading} />
