@@ -26,14 +26,22 @@
   "home": {
     "title": "Titolo Pagina",
     "new": "Nuovo",
-    "go_to_details": "Vai alla Scheda",
     "item": "items",
-    "search": "Cerca"
+    "search": "Cerca",
+    "newGameDialogTitle": "Create a new game",
+    "newGameInputName": "Nome",
+    "newGameInputNameGame": "Nome del gioco",
+    "newGameInputPlayersNum": "Numero di giocatori",
+    "newGameInputBotsNum": "Numero di bots",
+    "newGameInputTimeout": "Tempo massimo per fare una mossa",
+    "newGameInputPassword": "Password",
+    "newGameInputVerification": "Verifica il gioco"
   },
   
   "error": {
     "generic": "Errore. Riprovare",
-    "no_user": "Nessun utente associato alla mail fornita",
-    "mail_fail": "Errore nell'invio della mail"
+    "errorIncorrectData": "I dati inseriti non sono corretti!",
+    "errorEmptyField": "Alcuni campi non sono stati compilati!",
+    "errorNoConnection": "Errore di rete!"
   }
 }

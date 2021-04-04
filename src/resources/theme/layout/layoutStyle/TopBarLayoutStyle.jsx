@@ -11,7 +11,7 @@ const topBarLayoutStyle = theme => ({
   },
 
   appBarTitle: {
-    color: Colors.white,
+    color: Colors.textAppBar,
     flexGrow: 1,
     fontFamily: 'Roboto'
   },
@@ -41,7 +41,7 @@ const topBarLayoutStyle = theme => ({
   },
   
   menu: {
-    color: Colors.primaryColor,
+    color: Colors.textMenu,
   },
 
   menuIcon: {
@@ -50,7 +50,7 @@ const topBarLayoutStyle = theme => ({
   },
 
   languageMenu: {
-    color: Colors.primaryText, 
+    color: Colors.textAppBar, 
     fontSize: '15px',
     textTransform: 'none',
   },

@@ -88,6 +88,43 @@ const homeStyle = theme => ({
     color: colors.primaryColor,
   },
 
+  dialogPaper: {
+    borderRadius: '20px',
+  },
+
+  buttonPrimaryDialog: {
+    color: colors.textButtonDialog,
+    fontSize: '15px',
+    fontWeight: 500,
+    fontFamily:"Roboto",
+    textTransform: 'none',
+  },
+
+  dialogTextTitle: {
+    fontSize: '24px',
+    color: colors.titleDialog,
+    fontWeight: 'bold',
+    fontFamily:"Roboto",
+  },
+
+  dialogTextField: {
+    fontFamily:"Roboto",
+    "& label.Mui-focused": {
+      color: colors.textButtonDialog,
+    },
+    "& .MuiInput-underline:after": {
+      borderBottomColor: colors.textButtonDialog,
+    }
+  },
+
+  errorText: {
+    fontSize: '16px',
+    fontWeight: '700',
+    fontFamily:"Roboto",
+    color: colors.errorText,
+    textAlign: 'right',
+    marginTop: '10px'
+  },
 })
 
 export default homeStyle;

@@ -1,4 +1,4 @@
-const darkBlue = '#002446';
+const lightGreen = '#8bc34a';
 const lessDarkBlue = '#0B3358';
 const white = '#F2F2F2';
 const black = '#000000';
@@ -7,18 +7,24 @@ const darkGray = '#BDBDBD'
 const veryDarkGray = '#4F4F4F'
 const lightBlue = '#3198FF'
 
-const defaultPrimaryColor = lessDarkBlue;
-const defaultSecondaryColor = darkBlue;
+const defaultPrimaryColor = lightGreen;
 const defaultAccentColor = lightBlue;
 
-const red = 'red'
 
 const colors = {
 
-    loginBackground: '#B3DEE9',
-    background: gray,
+    primaryColor: defaultPrimaryColor,
 
-    primaryColor: red,
+    /* -----------------------  Backgroun Color  ---------------------------- */
+    background: white,
+
+    /* -------------------------  Text Color  ------------------------------- */
+    textMenu: black,
+    textAppBar: white,
+    textButtonDialog: defaultPrimaryColor,
+    titleDialog: black,
+    errorText: 'red',
+
     white: white,
     black: black,
     gray: gray,

@@ -120,6 +120,7 @@ class WebSocketManager {
       
       if (client.readyState === client.OPEN) {
         let jsonOfBody = JSON.stringify(body);
+        console.log('jsonOfBody: ', jsonOfBody);
         client.send(jsonOfBody);
         client.onmessage = (message) => {
           let parsedMessage = this.messageResponseToJson(message);
