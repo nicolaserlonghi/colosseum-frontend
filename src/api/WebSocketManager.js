@@ -22,10 +22,16 @@ class WebSocketManager {
     this.handshake = Configuration.handshake;
   }
 
-  getClient() {
-    if(!this.client || this.client.readyState === this.client.OPEN)
+   getClient() {
+    if(!this.client || this.client.readyState !== this.client.OPEN)
       this.client = this.initConnection();
     return this.client;
+  }
+
+   getClientForSubscription() {
+    if(!this.clientSub || this.clientSub.readyState !== this.clientSub.OPEN)
+      this.clientSub = this.initConnection();
+    return this.clientSub;
   }
 
   initConnection() {
@@ -120,7 +126,6 @@ class WebSocketManager {
       
       if (client.readyState === client.OPEN) {
         let jsonOfBody = JSON.stringify(body);
-        console.log('jsonOfBody: ', jsonOfBody);
         client.send(jsonOfBody);
         client.onmessage = (message) => {
           let parsedMessage = this.messageResponseToJson(message);
@@ -137,6 +142,88 @@ class WebSocketManager {
       } else {
         completed = true;
         return reject("Client is not connected");
+      }
+    });
+  }
+
+  subscribe(body) {
+    return new Promise(async (resolve, reject) => {
+      let completed = false;
+      setTimeout(() => {
+        if(!completed) {
+          completed = true;
+          return reject("sendJson(): Timeout error")
+        }
+      }, WebSocketManager.TIMEOUT)
+
+      let clientSub;
+      try {
+        clientSub = await this.getClientForSubscription();
+      } catch(err) {
+        completed = true;
+        return reject(err);
+      }
+      
+      if (clientSub.readyState === clientSub.OPEN) {
+        clientSub.onclose = () => {
+          completed = true;
+          return reject("The message sent is incorrect");
+          // setTimeout(function() {
+          //   initConnection();
+          // }, 1000);
+        };
+        let jsonOfBody = JSON.stringify(body);
+        clientSub.send(jsonOfBody);
+        completed = true;
+        return resolve(clientSub);
+      } else {
+        completed = true;
+        return reject("ClientSub is not connected");
+      }
+    });
+  }
+
+  unsubscribe(body) {
+    return new Promise(async (resolve, reject) => {
+      let completed = false;
+      setTimeout(() => {
+        if(!completed) {
+          completed = true;
+          return reject("sendJson(): Timeout error")
+        }
+      }, WebSocketManager.TIMEOUT)
+      
+      let clientSub;
+      try {
+        clientSub = await this.getClientForSubscription();
+      } catch(err) {
+        completed = true;
+        return reject(err);
+      }
+      let setClose = false;
+      if (clientSub.readyState === clientSub.OPEN) {
+        let jsonOfBody = JSON.stringify(body);
+        clientSub.send(jsonOfBody);
+        clientSub.onmessage = (message) => {
+          let parsedMessage = this.messageResponseToJson(message);
+          completed = true;
+          setClose = parsedMessage;
+          clientSub.close();
+          return resolve(parsedMessage);
+        }
+        
+        clientSub.onclose = () => {
+          completed = true;
+          if(setClose)
+            return resolve(setClose);
+          return reject("The message sent is incorrect");
+          // setTimeout(function() {
+          //   initConnection();
+          // }, 1000);
+        };
+      } else {
+        completed = true;
+        return reject("ClientSub is not connected");
       }
     });
   }
