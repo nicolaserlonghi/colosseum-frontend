@@ -24,18 +24,30 @@
   },
 
   "home": {
-    "title": "Titolo Pagina",
-    "new": "Nuovo",
+    "title": "Lobby",
     "item": "items",
     "search": "Cerca",
-    "newGameDialogTitle": "Create a new game",
+    "newGameDialogTitle": "Crea una nuova partita",
     "newGameInputName": "Nome",
     "newGameInputNameGame": "Nome del gioco",
     "newGameInputPlayersNum": "Numero di giocatori",
     "newGameInputBotsNum": "Numero di bots",
     "newGameInputTimeout": "Tempo massimo per fare una mossa",
     "newGameInputPassword": "Password",
-    "newGameInputVerification": "Verifica il gioco"
+    "newGameInputVerification": "Verifica il gioco",
+    "tableNothing": "Nessuna partita presente...",
+    "tableHeaderId": "Id",
+    "tableHeaderVerified": "Verificata",
+    "tableHeaderName": "Nome",
+    "tableHeaderGame": "Gioco",
+    "tableHeaderPlayers": "Giocatori",
+    "tableHeaderSpectators": "Spettatori",
+    "tableHeaderTimeout": "Timeout",
+    "tableHeaderTime": "Tempo",
+    "tableHeaderPassword": "Password",
+    "tableTimeExpires": "Scade alle",
+    "tableTimeStart": "Iniziata alle",
+    "buttonAddNewGame": "Nuova partita"
   },
   
   "error": {

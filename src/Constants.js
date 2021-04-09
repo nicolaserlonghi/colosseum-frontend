@@ -3,8 +3,10 @@ const constants = {
 
     drawerWidth: 240,
 
-    productsHistoryStorage: "productHistoryStorage",
-    rememberMeDataStorage: "rememberMeStorage",
+    lobbyMessageSubscribed: "LobbySubscribed",
+    lobbyMessageNew: "LobbyNew",
+    lobbyMessageUpdate: "LobbyUpdate",
+    lobbyMessageDelete: "LobbyDelete",
 
     countryCodeLanguagesSupported: {
         en: "gb",

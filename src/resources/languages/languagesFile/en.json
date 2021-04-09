@@ -24,8 +24,7 @@
   },
 
   "home": {
-    "title": "Title Page",
-    "new": "New",
+    "title": "Lobby",
     "item": "items",
     "search": "Search",
     "newGameDialogTitle": "Create a new game",
@@ -35,7 +34,20 @@
     "newGameInputBotsNum": "Number of bots",
     "newGameInputTimeout": "Maximum time to make a move",
     "newGameInputPassword": "Password",
-    "newGameInputVerification": "Verify the game"
+    "newGameInputVerification": "Verify the game",
+    "tableNothing": "No game present...",
+    "tableHeaderId": "Id",
+    "tableHeaderVerified": "Verified",
+    "tableHeaderName": "Name",
+    "tableHeaderGame": "Game",
+    "tableHeaderPlayers": "Players",
+    "tableHeaderSpectators": "Spectators",
+    "tableHeaderTimeout": "Timeout",
+    "tableHeaderTime": "Time",
+    "tableHeaderPassword": "Password",
+    "tableTimeExpires": "Expires at",
+    "tableTimeStart": "Start at",
+    "buttonAddNewGame": "New game"
   },
   
   "error": {

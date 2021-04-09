@@ -165,6 +165,16 @@ class Utils {
   isObject(object) {
     return object != null && typeof object === 'object';
   }
+
+  convertArrayOfObjectsToObject(array, attributeToUseLikeKey) {
+    const initialValue = {};
+    return array.reduce((obj, item) => {
+      return {
+        ...obj,
+        [item[attributeToUseLikeKey]]: item,
+      };
+    }, initialValue);
+  }
 }
 
 const utils = Utils.getInstance();

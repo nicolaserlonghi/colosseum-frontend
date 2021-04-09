@@ -21,12 +21,22 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import Table from '@material-ui/core/Table'
+import TableBody from '@material-ui/core/TableBody'
+import TableCell from '@material-ui/core/TableCell'
+import TableHead from '@material-ui/core/TableHead'
+import TableRow from '@material-ui/core/TableRow'
+import TableSortLabel from "@material-ui/core/TableSortLabel"
+import TableContainer from '@material-ui/core/TableContainer'
 
 import UserIcon from '@material-ui/icons/Person';
-import SearchIcon from '@material-ui/icons/Search';
 import RightIcon from '@material-ui/icons/KeyboardArrowRight';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import Search from '@material-ui/icons/Search';
+import Check from '@material-ui/icons/CheckRounded';
+import Close from '@material-ui/icons/CloseRounded';
+import AddCircle from '@material-ui/icons/AddCircleOutlineRounded';
 
 import TimeField from 'react-simple-timefield';
 
@@ -35,17 +45,20 @@ import { LanguageContext } from 'resources/languages/Language.js';
 import Spinner from 'views/spinner/Spinner.jsx';
 import Utils from 'helpers/Utils.js';
 import WebSocket from 'api/WebSocketManager.js';
+import Constants from 'Constants.js';
 
 class Home extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       loading: false,
-      filtered: [],
-      filter: "",
-      rowsPerPageOptions: [5, 10, 25, 50],
-      rowsPerPage: 5,
+      
+      rowsPerPage: 10,
       pageNumber: 0,
+      order: "asc",
+      orderBy: 'name',
+
+
       passwordVisible: false,
       verificationVisible: false,
       emptyDialogError: false,
@@ -65,24 +78,105 @@ class Home extends React.Component {
         verification: null,
       },
       gameList: [],
+      lobbyList: [],
+      lobbyListBackup: [],
     }
   }
 
   async componentDidMount() {
+    this.getGameList();
+    this.lobbySubscribe();
+  }
+
+  async getGameList() {
     try {
       let result = await WebSocket.sendJson({"GameList": {}});
-      console.log('result: ', result);
-      this.setState({ gameList: result.GameList.games })
-    } catch(err) {
-      console.log('err: ', err);
-    }
-    try {
-      let result = await WebSocket.sendJson({"LobbySubscribe": {}});
-      console.log('result: ', result);
+      this.setState({ gameList: result.GameList.games });
     } catch(err) {
       console.log('err: ', err);
     }
   }
+
+  async lobbySubscribe() {
+    try {
+      let clientSub = await WebSocket.subscribe({"LobbySubscribe": {}});
+      clientSub.onmessage = async (message) => {
+        let parsedMessage = WebSocket.messageResponseToJson(message);
+        this.manageLobbyMessage(parsedMessage);
+      }
+    } catch(err) {
+      console.log('err: ', err);
+    }
+  }
+
+  manageLobbyMessage(message) {
+    let type = Object.keys(message)[0];
+    let bodyMessage = message[type];
+    switch(type) {
+      case Constants.lobbyMessageSubscribed:
+        this.manageLobbyMessageSubscribed(bodyMessage);
+        break;
+      case Constants.lobbyMessageNew:
+        this.manageLobbyMessageNew(bodyMessage);
+        break;
+      case Constants.lobbyMessageUpdate:
+        this.manageLobbyMessageUpdate(bodyMessage);
+        break;
+      case Constants.lobbyMessageDelete:
+        this.manageLobbyMessageDelete(bodyMessage);
+        break;
+      default:
+        console.log("ERR: I don't know the lobby message type " + message);
+    }
+    console.log('lobbyList: ', this.state.lobbyList);
+  }
+
+  manageLobbyMessageSubscribed(bodyMessage) {
+    let lobbyList = bodyMessage.seed;
+    this.setState({ lobbyList: lobbyList, lobbyListBackup: lobbyList});
+  }
+  
+  manageLobbyMessageNew(bodyMessage) {
+    let newItem = bodyMessage.info;
+    let lobbyList = this.state.lobbyList;
+    lobbyList.push(newItem);
+    this.setState({ lobbyList: lobbyList, lobbyListBackup: lobbyList});
+  }
+
+  manageLobbyMessageUpdate(bodyMessage) {
+    let updateItem = bodyMessage.info;
+    let lobbyList = this.state.lobbyList;
+    lobbyList.every((element, i) => {
+      if(element.id === updateItem.id) {
+        lobbyList[i] = updateItem;
+        return false;
+      } else
+        return true;
+    });
+    this.setState({ lobbyList: lobbyList, lobbyListBackup: lobbyList});
+  }
+
+  manageLobbyMessageDelete(bodyMessage) {
+    let deleteItemId = bodyMessage.id;
+    let lobbyList = this.state.lobbyList;
+    lobbyList.every((element, i) => {
+      if(element.id === deleteItemId) {
+        lobbyList.splice(i, 1);
+        return false;
+      } else
+        return true;
+    });
+    this.setState({ lobbyList: lobbyList, lobbyListBackup: lobbyList});
+  }
+
+  async lobbyUnsubscribe() {
+    try {
+      let result = await WebSocket.unsubscribe({"LobbyUnsubscribe": {}});
+    } catch(err) {
+      console.log('err: ', err);
+    }
+  }
+
 
   render() {
     const classes = this.props.classes;
@@ -256,6 +350,18 @@ class Home extends React.Component {
         </DialogActions>
       </Dialog>
     );
+
+    const headCells = [
+      { id: "id", numeric: false, label: this.context.dictionary.home.tableHeaderId },
+      { id: "name", numeric: false, label: this.context.dictionary.home.tableHeaderName },
+      { id: "game", numeric: false, label: this.context.dictionary.home.tableHeaderGame },
+      { id: "players", numeric: true, label: this.context.dictionary.home.tableHeaderPlayers },
+      { id: "spectators", numeric: true, label: this.context.dictionary.home.tableHeaderSpectators },
+      { id: "verified", numeric: false, label: this.context.dictionary.home.tableHeaderVerified },
+      { id: "password", numeric: false, label: this.context.dictionary.home.tableHeaderPassword },
+      { id: "timeout", numeric: false, label: this.context.dictionary.home.tableHeaderTimeout },
+      { id: "time", numeric: false, label: this.context.dictionary.home.tableHeaderTime },
+    ]
     
     return (
       <React.Fragment>
@@ -274,10 +380,10 @@ class Home extends React.Component {
             <Button
               fullWidth
               className={classes.buttonPrimary}
-              startIcon={<UserIcon />}
+              startIcon={<AddCircle />}
               onClick={() => this.newGameDialogHandle()}
             >
-              {this.context.dictionary.home.new}
+              {this.context.dictionary.home.buttonAddNewGame}
             </Button>
           </Grid>
         </Grid>
@@ -289,25 +395,182 @@ class Home extends React.Component {
               <InputBase
                 className={classes.searchInput} 
                 placeholder={this.context.dictionary.home.search}
-                onChange={(event) => this.applyFilter(event.target.value)} 
-                value={this.state.filter}
+                onChange={(event) => this.filterForName(event.target.value)} 
               />                      
               <Divider className={classes.searchDivider} />
-              <IconButton > <SearchIcon /> </IconButton>
+              <IconButton 
+                className={classes.searchIconButton} 
+                aria-label="Directions"
+              >
+                <Search />
+              </IconButton>
             </Paper>
           </Grid>
-          <Hidden smDown>
-            <Grid item xs={5}/>
-            <Grid item xs={3}>
-              <Typography variant="subtitle2" className={classes.recapText}>
-                {`${this.context.dictionary.home.title} | ${this.state.filtered.length} ${this.context.dictionary.home.item}`}
-              </Typography>
-            </Grid>
-          </Hidden>
+        </Grid>
+
+        <Grid container>
+          <Grid item xs={12}>
+            <TableContainer component={Paper}>
+              {
+                this.state.lobbyList.length > 0 ?
+                  <Table>
+                    <TableHead className={classes.tableHeader}>
+                      <TableRow>
+                        {
+                          headCells.map(headCell => (
+                            <TableCell
+                              key={headCell.id}
+                              sortDirection={this.state.orderBy === headCell.id ? this.state.order : false}
+                            >
+                              <TableSortLabel
+                                className={classes.tableTitle}
+                                active={this.state.orderBy === headCell.id}
+                                direction={this.state.order}
+                                onClick={() => this.handleRequestSort(headCell.id)}
+                              >
+                                {headCell.label}  
+                              </TableSortLabel>
+                            </TableCell>
+                          ), this)
+                        }
+                        <TableCell />
+                      </TableRow>
+                    </TableHead>
+  
+                    <TableBody>
+                      {
+                        this.stableSort(this.state.lobbyList, this.getSorting(this.state.order, this.state.orderBy))
+                        .slice(this.state.pageNumber * this.state.rowsPerPage, this.state.pageNumber * this.state.rowsPerPage + this.state.rowsPerPage)
+                        .map(row => {
+                          let time = new Date(row.time * 1000);
+                          return (  
+                            <TableRow 
+                              key={row.id} 
+                              className={classes.tableRow}
+                              hover
+                              tabIndex={-1}
+                            >
+                              <TableCell>{row.id}</TableCell>
+                              <TableCell>{row.name}</TableCell>
+                              <TableCell>{row.game}</TableCell>
+                              <TableCell>{row.players}</TableCell>
+                              <TableCell>{row.spectators}</TableCell>
+                              <TableCell>
+                                {
+                                  row.verified ?
+                                    <Check />
+                                  :
+                                    <Close />
+                                }
+                              </TableCell>
+                              <TableCell>
+                                {
+                                  row.password ?
+                                    <Check />
+                                  :
+                                    <Close />
+                                }
+                              </TableCell>
+                              <TableCell>{row.timeout}</TableCell>
+                              <TableCell>
+                                {
+                                  row.runnig ?
+                                    this.context.dictionary.home.tableTimeStart + time.getHours() + ':' + time.getMinutes()
+                                  :
+                                    this.context.dictionary.home.tableTimeExpires + time.getHours() + ':' + time.getMinutes()
+                                }
+                              </TableCell>
+                              <TableCell>
+                                <IconButton 
+                                  className={classes.margin} 
+                                  size="small"
+                                  onClick={() => console.log("Pressed >")}
+                                >
+                                  <RightIcon />
+                                </IconButton>
+                              </TableCell>
+                            </TableRow>
+                          )
+                        })
+                      }
+                    </TableBody>
+                  </Table>
+                :
+                  <Typography className={classes.tableMessage} variant="h5">
+                    { this.context.dictionary.home.tableNothing }
+                  </Typography>
+                }
+              <TablePagination
+                labelRowsPerPage={""}
+                rowsPerPageOptions={this.state.rowsPerPageOptions}
+                component="div"
+                count={this.state.lobbyList.length}
+                rowsPerPage={this.state.rowsPerPage}
+                page={this.state.pageNumber}
+                backIconButtonProps={{'aria-label': 'Previous Page'}}
+                nextIconButtonProps={{'aria-label': 'Next Page'}}
+                onChangePage={(event, page) => this.setState({ pageNumber: page })}
+                onChangeRowsPerPage={(event) => this.setState({ rowsPerPage: event.target.value })}
+                />
+            </TableContainer>
+          </Grid>
         </Grid>
 
       </React.Fragment>
     )
+  }
+
+  handleRequestSort(property) {
+    const orderBy = property;
+    let order = 'desc';
+    if (this.state.orderBy === property && this.state.order === 'desc')
+        order = 'asc';
+    this.setState({ order: order, orderBy: orderBy });
+  };
+
+  stableSort(array, cmp) {
+    const stabilizedThis = array.map((el, index) => [el, index]);
+    stabilizedThis.sort((a, b) => {
+      const order = cmp(a[0], b[0]);
+      if (order !== 0) return order;
+      return a[1] - b[1];
+    });
+    return stabilizedThis.map(el => el[0]);
+  }
+
+  getSorting(order, orderBy) {
+    return order === "desc"
+      ? (a, b) => this.desc(a, b, orderBy)
+      : (a, b) => -this.desc(a, b, orderBy);
+  }
+
+  desc(a, b, orderBy) {
+    if (b[orderBy] < a[orderBy]) {
+      return -1;
+    }
+    if (b[orderBy] > a[orderBy]) {
+      return 1;
+    }
+    return 0;
+  }
+
+  filterForName(str) {
+      let base = this.state.lobbyListBackup;
+      if (!str)
+          this.setState({ lobbyList: base });
+      let filtered = [];
+      let filter = str.toLowerCase()
+      for (let i = 0; i < base.length; i++) {
+        let tmp = Object.values(base[i]);
+        for(let j = 0; j < tmp.length; j++) {
+          let item = tmp[j].toString().toLowerCase();
+          if (item.includes(filter)) {
+            filtered.push(base[i]);
+            break;
+          }
+        }   
+      }
+      this.setState({ lobbyList: filtered })
   }
 
   newGameDialogHandle() {
@@ -384,15 +647,15 @@ class Home extends React.Component {
     if(!newGame.params.timeout || newGame.params.timeout === "00:00:00")
       newGame.params.timeout = null
     else {
-      // TODO Manage time
+      // TODO Manage timeout
       console.log('newGame.params.timeout: ', newGame.params.timeout);
       // let time = new Date("01/01/1970" + " " + newGame.params.timeout);
       // console.log(time.getDate() +'/'+ time.getMonth() +'/'+ time.getFullYear()+ ' '+ time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds());
     }
     try {
       let result = await WebSocket.sendJson({"GameNew": newGame});
+      console.log('result new game: ', result);
       if(result.GameNew.id.Err) {
-        console.log('result.GameNew.id.Err: ', result.GameNew.id.Err);
         this.setState({ 
           loading: false, 
           emptyDialogError: false,
