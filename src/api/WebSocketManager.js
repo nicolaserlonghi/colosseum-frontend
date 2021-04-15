@@ -20,6 +20,7 @@ class WebSocketManager {
     this.ip = Configuration.ip;
     this.port = Configuration.port;
     this.handshake = Configuration.handshake;
+    this.subscribeFailCount = 0;
   }
 
    getClient() {
@@ -163,18 +164,26 @@ class WebSocketManager {
         completed = true;
         return reject(err);
       }
-      
+
       if (clientSub.readyState === clientSub.OPEN) {
         clientSub.onclose = () => {
-          completed = true;
-          return reject("The message sent is incorrect");
-          // setTimeout(function() {
-          //   initConnection();
-          // }, 1000);
+          if(this.subscribeFailCount === 0) {
+             // Probably unsubscribe not done
+             this.subscribeFailCount += 1
+            this.subscribe(body);
+          } else {
+            this.subscribeFailCount = 0
+            completed = true;
+            return reject("The message sent is incorrect");
+            // setTimeout(function() {
+            //   initConnection();
+            // }, 1000);
+          }
         };
         let jsonOfBody = JSON.stringify(body);
         clientSub.send(jsonOfBody);
         completed = true;
+        this.subscribeFailCount = 0
         return resolve(clientSub);
       } else {
         completed = true;
