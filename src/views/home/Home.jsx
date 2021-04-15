@@ -453,7 +453,7 @@ class Home extends React.Component {
                               <TableCell>{row.id}</TableCell>
                               <TableCell>{row.name}</TableCell>
                               <TableCell>{row.game}</TableCell>
-                              <TableCell>{row.players}</TableCell>
+                              <TableCell>{row.connected.length + "/" + row.players}</TableCell>
                               <TableCell>{row.spectators}</TableCell>
                               <TableCell>
                                 {
@@ -475,9 +475,9 @@ class Home extends React.Component {
                               <TableCell>
                                 {
                                   row.runnig ?
-                                    this.context.dictionary.home.tableTimeStart + time.getHours() + ':' + time.getMinutes()
+                                    this.context.dictionary.home.tableTimeStart + time.getHours() + (time.getMinutes() < 10 ? ':0' : ":") + time.getMinutes()
                                   :
-                                    this.context.dictionary.home.tableTimeExpires + time.getHours() + ':' + time.getMinutes()
+                                    this.context.dictionary.home.tableTimeExpires + time.getHours() + (time.getMinutes() < 10 ? ':0' : ":") + time.getMinutes()
                                 }
                               </TableCell>
                               <TableCell>
