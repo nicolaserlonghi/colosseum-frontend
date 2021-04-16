@@ -39,7 +39,7 @@ import TimeField from 'react-simple-timefield';
 
 import HomeStyle from 'resources/styles/HomeStyle.jsx';
 import { LanguageContext } from 'resources/languages/Language.js';
-import Spinner from 'views/spinner/Spinner.jsx';
+import Spinner from 'views/Spinner.jsx';
 import WebSocket from 'api/WebSocketManager.js';
 import Constants from 'Constants.js';
 

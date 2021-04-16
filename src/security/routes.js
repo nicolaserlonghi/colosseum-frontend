@@ -1,5 +1,5 @@
-import Home from "views/home/Home.jsx"
-import Spectate from "views/spectate/Spectate.jsx"
+import Home from "views/Home.jsx"
+import Spectate from "views/Spectate.jsx"
 
 const dashboardRoutes = [
   {

@@ -14,7 +14,7 @@ import ExitToAppRounded from '@material-ui/icons/ExitToAppRounded';
 
 import SpectateStyle from 'resources/styles/SpectateStyle.jsx';
 import { LanguageContext } from 'resources/languages/Language.js';
-import Spinner from 'views/spinner/Spinner.jsx';
+import Spinner from 'views/Spinner.jsx';
 import WebSocket from 'api/WebSocketManager.js';
 import Constants from 'Constants.js';
 
