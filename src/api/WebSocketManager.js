@@ -20,7 +20,6 @@ class WebSocketManager {
     this.ip = Configuration.ip;
     this.port = Configuration.port;
     this.handshake = Configuration.handshake;
-    this.subscribeFailCount = 0;
   }
 
    getClient() {
@@ -30,9 +29,8 @@ class WebSocketManager {
   }
 
    getClientForSubscription() {
-    if(!this.clientSub || this.clientSub.readyState !== this.clientSub.OPEN)
-      this.clientSub = this.initConnection();
-    return this.clientSub;
+    let clientSub = this.initConnection();
+    return clientSub;
   }
 
   initConnection() {
@@ -166,20 +164,15 @@ class WebSocketManager {
       }
 
       if (clientSub.readyState === clientSub.OPEN) {
+
         clientSub.onclose = () => {
-          if(this.subscribeFailCount === 0) {
-             // Probably unsubscribe not done
-             this.subscribeFailCount += 1
-            this.subscribe(body);
-          } else {
-            this.subscribeFailCount = 0
-            completed = true;
-            return reject("The message sent is incorrect");
-            // setTimeout(function() {
-            //   initConnection();
-            // }, 1000);
-          }
-        };
+          completed = true;
+          return reject("The message sent is incorrect");
+          // setTimeout(function() {
+          //   initConnection();
+          // }, 1000);
+        }
+
         let jsonOfBody = JSON.stringify(body);
         clientSub.send(jsonOfBody);
         completed = true;
@@ -192,7 +185,7 @@ class WebSocketManager {
     });
   }
 
-  unsubscribe(body) {
+  unsubscribe(body, clientSub) {
     return new Promise(async (resolve, reject) => {
       let completed = false;
       setTimeout(() => {
@@ -202,13 +195,6 @@ class WebSocketManager {
         }
       }, WebSocketManager.TIMEOUT)
       
-      let clientSub;
-      try {
-        clientSub = await this.getClientForSubscription();
-      } catch(err) {
-        completed = true;
-        return reject(err);
-      }
       let setClose = false;
       if (clientSub.readyState === clientSub.OPEN) {
         let jsonOfBody = JSON.stringify(body);

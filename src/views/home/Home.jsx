@@ -8,28 +8,25 @@ import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import Hidden from '@material-ui/core/Hidden';
-import Avatar from '@material-ui/core/Avatar';
 import TablePagination from '@material-ui/core/TablePagination';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import Table from '@material-ui/core/Table'
-import TableBody from '@material-ui/core/TableBody'
-import TableCell from '@material-ui/core/TableCell'
-import TableHead from '@material-ui/core/TableHead'
-import TableRow from '@material-ui/core/TableRow'
-import TableSortLabel from "@material-ui/core/TableSortLabel"
-import TableContainer from '@material-ui/core/TableContainer'
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import TableSortLabel from "@material-ui/core/TableSortLabel";
+import TableContainer from '@material-ui/core/TableContainer';
 
-import UserIcon from '@material-ui/icons/Person';
 import RightIcon from '@material-ui/icons/KeyboardArrowRight';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
@@ -43,15 +40,16 @@ import TimeField from 'react-simple-timefield';
 import HomeStyle from 'resources/styles/HomeStyle.jsx';
 import { LanguageContext } from 'resources/languages/Language.js';
 import Spinner from 'views/spinner/Spinner.jsx';
-import Utils from 'helpers/Utils.js';
 import WebSocket from 'api/WebSocketManager.js';
 import Constants from 'Constants.js';
+
 
 class Home extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      loading: false,
+      loading: true,
+      clientLobbySubscribe: null,
       
       rowsPerPage: 10,
       pageNumber: 0,
@@ -98,11 +96,13 @@ class Home extends React.Component {
   }
 
   async lobbySubscribe() {
-    try {
-      let clientSub = await WebSocket.subscribe({"LobbySubscribe": {}});
-      clientSub.onmessage = async (message) => {
+    try {  
+      let clientLobbySubscribe = await WebSocket.subscribe({"LobbySubscribe": {}});
+      this.setState({ clientLobbySubscribe: clientLobbySubscribe });
+      clientLobbySubscribe.onmessage = async (message) => {
         let parsedMessage = WebSocket.messageResponseToJson(message);
         this.manageLobbyMessage(parsedMessage);
+        this.setState({ loading: false });
       }
     } catch(err) {
       console.log('err: ', err);
@@ -167,14 +167,6 @@ class Home extends React.Component {
         return true;
     });
     this.setState({ lobbyList: lobbyList, lobbyListBackup: lobbyList});
-  }
-
-  async lobbyUnsubscribe() {
-    try {
-      let result = await WebSocket.unsubscribe({"LobbyUnsubscribe": {}});
-    } catch(err) {
-      console.log('err: ', err);
-    }
   }
 
 
@@ -365,7 +357,7 @@ class Home extends React.Component {
     
     return (
       <React.Fragment>
-        <Spinner open={this.state.loading} />
+        { this.state.loading ?  <Spinner open={this.state.loading} /> : null }
 
         { newGameDialog } 
 
@@ -484,7 +476,7 @@ class Home extends React.Component {
                                 <IconButton 
                                   className={classes.margin} 
                                   size="small"
-                                  onClick={() => console.log("Pressed >")}
+                                  onClick={() => this.goToSpectatePage(row.id)}
                                 >
                                   <RightIcon />
                                 </IconButton>
@@ -654,7 +646,6 @@ class Home extends React.Component {
     }
     try {
       let result = await WebSocket.sendJson({"GameNew": newGame});
-      console.log('result new game: ', result);
       if(result.GameNew.id.Err) {
         this.setState({ 
           loading: false, 
@@ -691,6 +682,19 @@ class Home extends React.Component {
     this.setState({
       verificationVisible: !this.state.verificationVisible
     })
+  }
+
+  async goToSpectatePage(matchId) {
+    if(this.state.clientLobbySubscribe) {
+      try {
+        let body = {"LobbyUnsubscribe": {}};
+        await WebSocket.unsubscribe(body , this.state.clientLobbySubscribe);
+        this.setState({ clientLobbySubscribe: null })
+      } catch(err) {
+        console.log('err: ', err);
+      }
+    }
+    this.props.history.push('spectate', {"matchId": matchId});
   }
 }
 

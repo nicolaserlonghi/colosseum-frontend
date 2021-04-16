@@ -6,6 +6,7 @@
   "general": {
     "yes": "Sì",
     "no": "No",
+    "ok": "Ok",
     "edit": "Modifica",
     "close": "Chiudi",
     "back": "Indietro",
@@ -21,6 +22,14 @@
     "errorEmptyField": "Alcuni campi non sono stati compilati!",
     "errorNoConnection": "Nessuna connessione!",
     "errorPasswordNotEquals": "Le password non corrispondono"
+  },
+
+  "error": {
+    "error": "Errore: ",
+    "generic": "Errore. Riprovare",
+    "errorIncorrectData": "I dati inseriti non sono corretti!",
+    "errorEmptyField": "Alcuni campi non sono stati compilati!",
+    "errorNoConnection": "Errore di rete!"
   },
 
   "home": {
@@ -50,10 +59,11 @@
     "buttonAddNewGame": "Nuova partita"
   },
   
-  "error": {
-    "generic": "Errore. Riprovare",
-    "errorIncorrectData": "I dati inseriti non sono corretti!",
-    "errorEmptyField": "Alcuni campi non sono stati compilati!",
-    "errorNoConnection": "Errore di rete!"
+  "spectate": {
+    "title": "Spettatore",
+    "buttonLeave": "Lascia la partita",
+    "dialogErrorTitle": "Ops! Qualcosa è andato storto...",
+    "dialogErrorDeleteTitle": "La partita non è ancora iniziata o è scaduta!",
+    "dialogErrorEndTitle": "La partita è terminata!"
   }
 }

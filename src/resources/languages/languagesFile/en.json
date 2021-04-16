@@ -6,6 +6,7 @@
   "general": {
     "yes": "Yes",
     "no": "No",
+    "ok": "Ok",
     "edit": "Edit",
     "close": "Close",
     "back": "Back",
@@ -21,6 +22,14 @@
     "errorEmptyField": "Empty field!",
     "errorNoConnection": "No connection",
     "errorPasswordNotEquals": "Password not equals"
+  },
+
+  "error": {
+    "error": "Error: ",
+    "generic": "An error is occurred. Please retry",
+    "errorIncorrectData": "Insert incorrect data!",
+    "errorEmptyField": "Empty field!",
+    "errorNoConnection": "Network error!"
   },
 
   "home": {
@@ -49,11 +58,12 @@
     "tableTimeStart": "Start at",
     "buttonAddNewGame": "New game"
   },
-  
-  "error": {
-    "generic": "An error is occurred. Please retry",
-    "errorIncorrectData": "Insert incorrect data!",
-    "errorEmptyField": "Empty field!",
-    "errorNoConnection": "Network error!"
+
+  "spectate": {
+    "title": "Spectator",
+    "buttonLeave": "Leave the game",
+    "dialogErrorTitle": "Ops! Something went wrong...",
+    "dialogErrorDeleteTitle": "The game has not started yet or has expired!",
+    "dialogErrorEndTitle": "The game is over!"
   }
 }

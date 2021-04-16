@@ -1,12 +1,15 @@
 const constants = {
     defaultHomePage: "home",
 
-    drawerWidth: 240,
-
     lobbyMessageSubscribed: "LobbySubscribed",
     lobbyMessageNew: "LobbyNew",
     lobbyMessageUpdate: "LobbyUpdate",
     lobbyMessageDelete: "LobbyDelete",
+
+    spectateMessageJoined: "SpectateJoined",
+    spectateMessageEnd: "SpectateEnd",
+    spectateMessageStarted: "SpectateStarted",
+    spectateMessageSynced: "SpectateSynced",
 
     countryCodeLanguagesSupported: {
         en: "gb",
