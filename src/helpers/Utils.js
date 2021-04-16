@@ -1,5 +1,3 @@
-import routes from 'security/routes.js';
-
 class Utils {
   
   static instance = null;
