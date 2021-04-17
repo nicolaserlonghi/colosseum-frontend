@@ -466,7 +466,7 @@ class Home extends React.Component {
                               <TableCell>{row.timeout}</TableCell>
                               <TableCell>
                                 {
-                                  row.runnig ?
+                                  row.running ?
                                     this.context.dictionary.home.tableTimeStart + " " + time.getHours() + (time.getMinutes() < 10 ? ':0' : ":") + time.getMinutes()
                                   :
                                     this.context.dictionary.home.tableTimeExpires + " " + time.getHours() + (time.getMinutes() < 10 ? ':0' : ":") + time.getMinutes()
