@@ -62,6 +62,7 @@ class Home extends React.Component {
       emptyDialogError: false,
       networkDialogError: false,
       incorrectDataDialogError: false,
+      errorFromServer: false,
       newGameDialogStatus: false,
       newGameDialogData: {
         name: null,
@@ -324,6 +325,15 @@ class Home extends React.Component {
             :
               null
           }
+          {
+            this.state.errorFromServer ?
+              <Typography className={classes.errorText}>
+                {this.state.errorFromServer}
+              </Typography>
+            :
+              null
+          }
+          
         </DialogContent>
           {/* Action buttons */}
         <DialogActions>
@@ -590,6 +600,7 @@ class Home extends React.Component {
       emptyDialogError: false,
       networkDialogError: false,
       incorrectDataDialogError: false,
+      errorFromServer: false,
     });
   }
 
@@ -610,7 +621,8 @@ class Home extends React.Component {
       loading: true, 
       emptyDialogError: false,
       networkDialogError: false, 
-      incorrectDataDialogError: false
+      incorrectDataDialogError: false,
+      errorFromServer: false,
     });
     let newGame = JSON.parse(JSON.stringify(this.state.newGameDialogData));
     if(!newGame.name || newGame.game === null || !newGame.params.bots) {
@@ -618,7 +630,8 @@ class Home extends React.Component {
         loading: false, 
         emptyDialogError: true,
         networkDialogError: false, 
-        incorrectDataDialogError: false
+        incorrectDataDialogError: false,
+        errorFromServer: false,
       });
       return;
     }
@@ -629,7 +642,8 @@ class Home extends React.Component {
         loading: false, 
         emptyDialogError: false,
         networkDialogError: false, 
-        incorrectDataDialogError: true
+        incorrectDataDialogError: true,
+        errorFromServer: false,
       });
       return;
     }
@@ -644,7 +658,8 @@ class Home extends React.Component {
           loading: false, 
           emptyDialogError: false,
           networkDialogError: false, 
-          incorrectDataDialogError: true
+          incorrectDataDialogError: true,
+          errorFromServer: result.GameNew.id.Err,
         });
         return;
       } else {
@@ -659,7 +674,8 @@ class Home extends React.Component {
         loading: false, 
         emptyDialogError: false,
         networkDialogError: true, 
-        incorrectDataDialogError: false
+        incorrectDataDialogError: false,
+        errorFromServer: false,
       });
       return;
     }
