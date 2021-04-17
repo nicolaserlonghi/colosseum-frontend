@@ -133,6 +133,8 @@ class WebSocketManager {
         }
         client.onclose = () => {
           completed = true;
+          client.close();
+          this.client = null;
           return reject("The message sent is incorrect");
           // setTimeout(function() {
           //   initConnection();
