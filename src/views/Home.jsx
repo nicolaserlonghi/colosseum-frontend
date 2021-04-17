@@ -242,18 +242,18 @@ class Home extends React.Component {
             className={classes.dialogTextField}
           />
           {/* Timeout input */}
-          <TimeField
-            showSeconds
+          <TextField
+            margin="dense"
+            label={this.context.dictionary.home.newGameInputTimeout}
             value={this.state.newGameDialogData.params.timeout}
             onChange={event => this.handleNewGameDialogInputChange("timeout", event)}
-            input={
-              <TextField
-                fullWidth
-                margin="dense"
-                label={this.context.dictionary.home.newGameInputTimeout} 
-                value={this.state.newGameDialogData.params.timeout} 
-              />
-            }
+            type="number"
+            InputProps={{ 
+              min: "0",
+              step: "1",
+              startAdornment: <InputAdornment position="start">Sec</InputAdornment>,
+             }}
+            fullWidth
             className={classes.dialogTextField}
           />
           {/* password input */}
@@ -636,14 +636,7 @@ class Home extends React.Component {
     newGame.params.players = newGame.params.players ? Number(newGame.params.players) : null;
     newGame.params.bots = Number(newGame.params.bots);
     newGame.game = this.state.gameList[newGame.game];
-    if(!newGame.params.timeout || newGame.params.timeout === "00:00:00")
-      newGame.params.timeout = null
-    else {
-      // TODO Manage timeout
-      console.log('newGame.params.timeout: ', newGame.params.timeout);
-      // let time = new Date("01/01/1970" + " " + newGame.params.timeout);
-      // console.log(time.getDate() +'/'+ time.getMonth() +'/'+ time.getFullYear()+ ' '+ time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds());
-    }
+    newGame.params.timeout = newGame.params.timeout ? Number(newGame.params.timeout) : null;
     try {
       let result = await WebSocket.sendJson({"GameNew": newGame});
       if(result.GameNew.id.Err) {

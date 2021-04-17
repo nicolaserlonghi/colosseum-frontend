@@ -41,7 +41,7 @@
     "newGameInputNameGame": "Nome del gioco",
     "newGameInputPlayersNum": "Numero di giocatori",
     "newGameInputBotsNum": "Numero di bots",
-    "newGameInputTimeout": "Tempo massimo per fare una mossa",
+    "newGameInputTimeout": "Tempo massimo in secondi per fare una mossa",
     "newGameInputPassword": "Password",
     "newGameInputVerification": "Verifica il gioco",
     "tableNothing": "Nessuna partita presente...",
