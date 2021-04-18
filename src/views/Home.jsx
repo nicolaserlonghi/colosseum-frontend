@@ -26,6 +26,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import TableContainer from '@material-ui/core/TableContainer';
+import Box from '@material-ui/core/Box';
 
 import RightIcon from '@material-ui/icons/KeyboardArrowRight';
 import Visibility from '@material-ui/icons/Visibility';
@@ -34,6 +35,7 @@ import Search from '@material-ui/icons/Search';
 import Check from '@material-ui/icons/CheckRounded';
 import Close from '@material-ui/icons/CloseRounded';
 import AddCircle from '@material-ui/icons/AddCircleOutlineRounded';
+import DeleteIcon from "@material-ui/icons/DeleteRounded";
 
 import TimeField from 'react-simple-timefield';
 
@@ -79,6 +81,8 @@ class Home extends React.Component {
       gameList: [],
       lobbyList: [],
       lobbyListBackup: [],
+
+      argsElement: [],
     }
   }
 
@@ -299,6 +303,56 @@ class Home extends React.Component {
               )
             }}
           />
+          {/* Args */}   
+          {
+            this.state.argsElement.map((item, index) => (
+              <Grid container spacing={2} alignItems="flex-end">
+                <Grid item xs={5}>
+                  {/* Arg Key */}
+                  <TextField
+                    autoFocus
+                    required
+                    margin="dense"
+                    label={this.context.dictionary.home.newGameInputArgKey}
+                    value={item.key}
+                    onChange={event => this.handleArgsElementChange(index, 'key', event)}
+                    fullWidth
+                    className={classes.dialogTextField}
+                  />
+                </Grid>
+                {/* Arg Value */}
+                <Grid item xs={5}>
+                  <TextField
+                    required
+                    margin="dense"
+                    label={this.context.dictionary.home.newGameInputArgValue}
+                    value={item.value}
+                    onChange={event => this.handleArgsElementChange(index, 'value', event)}
+                    fullWidth
+                    className={classes.dialogTextField}
+                  />
+                </Grid>
+                <Grid item xs={2}>
+                  <IconButton
+                    size="small"
+                    onClick={() => this.deleteArg(index)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </Grid>
+              </Grid>
+            ))
+          }
+          {/* Button add arg */}
+          <Button 
+            className={classes.buttonPrimaryDialog}
+            variant="outlined"
+            fullWidth
+            style={{ marginTop: '8px' }}
+            onClick={() => this.addNewArg()}
+            >
+            { this.context.dictionary.home.newGameButtonAddArg }
+          </Button>
           <br/>
           <br/>
           {
@@ -601,6 +655,7 @@ class Home extends React.Component {
       networkDialogError: false,
       incorrectDataDialogError: false,
       errorFromServer: false,
+      argsElement: [],
     });
   }
 
@@ -634,6 +689,20 @@ class Home extends React.Component {
         errorFromServer: false,
       });
       return;
+    }
+    for(let i = 0; i < this.state.argsElement.length; i++) {
+      let item = this.state.argsElement[i];
+      if(!item.key || !item.value) {
+        this.setState({ 
+          loading: false, 
+          emptyDialogError: true,
+          networkDialogError: false,
+          incorrectDataDialogError: false,
+          errorFromServer: false,
+        });
+        return;
+      }
+      newGame.args[item.key] = item.value;
     }
     if((newGame.params.players && isNaN(newGame.params.players))
        || isNaN(newGame.params.bots)
@@ -691,6 +760,23 @@ class Home extends React.Component {
     this.setState({
       verificationVisible: !this.state.verificationVisible
     })
+  }
+
+  addNewArg() {
+    let newArg = {key: "", value: ""}
+    this.setState({ argsElement: [...this.state.argsElement, newArg] })
+  }
+
+  deleteArg(index) {
+    let argsElement = this.state.argsElement;
+    argsElement.splice(index, 1);
+    this.setState({ argsElement: argsElement });
+  }
+
+  handleArgsElementChange(index, key, event) {
+    let argsElement = this.state.argsElement;
+    argsElement[index][key] = event.target.value.trim();
+    this.setState({ argsElement: argsElement });
   }
 
   async goToSpectatePage(matchId) {
