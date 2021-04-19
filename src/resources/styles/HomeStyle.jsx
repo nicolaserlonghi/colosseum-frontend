@@ -106,6 +106,10 @@ const homeStyle = theme => ({
     color: colors.iconButtonDialog,
   },
 
+  tableIcon: {
+    color: colors.iconTable,
+  },
+
   errorText: {
     fontSize: '16px',
     fontWeight: '700',

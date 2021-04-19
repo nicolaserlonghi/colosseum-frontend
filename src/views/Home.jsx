@@ -37,11 +37,13 @@ import RightIcon from '@material-ui/icons/KeyboardArrowRight';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Search from '@material-ui/icons/Search';
-import Check from '@material-ui/icons/CheckRounded';
+import Check from '@material-ui/icons/CheckCircleRounded';
+import Cancel from '@material-ui/icons/CancelRounded';
 import Close from '@material-ui/icons/CloseRounded';
 import AddCircle from '@material-ui/icons/AddCircleOutlineRounded';
 import DeleteIcon from "@material-ui/icons/DeleteRounded";
 import ExpandMore from "@material-ui/icons/ExpandMoreRounded";
+import Info from "@material-ui/icons/InfoRounded";
 
 import ReactMarkdown from 'react-markdown';
 
@@ -89,6 +91,8 @@ class Home extends React.Component {
       gameDescription: "",
       lobbyList: [],
       lobbyListBackup: [],
+      argsListDialogStatus: false,
+      argToList: {},
     }
   }
 
@@ -475,6 +479,52 @@ class Home extends React.Component {
       </Dialog>
     );
 
+    const argsListDialog = (
+      <Dialog 
+        open={this.state.argsListDialogStatus} 
+        onClose={() => this.argsListDialogHandle()}
+        scroll={"paper"}
+        // PaperProps={{className: classes.dialogPaper}}
+      >
+        <DialogTitle className={classes.dialogTitle}>
+          { this.context.dictionary.home.argsListDialogTitle }
+        </DialogTitle>
+        <DialogContent>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>
+                  { this.context.dictionary.home.argsListDialogKeyHeader }
+                </TableCell>
+                <TableCell align="center">
+                  { this.context.dictionary.home.argsListDialogValueHeader }
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {
+                Object.entries(this.state.argToList).map((item) => (
+                  <TableRow key={item[0]}>
+                    <TableCell>{item[0]}</TableCell>
+                    <TableCell align="center">{item[1]}</TableCell>
+                  </TableRow>
+                ))
+              }
+            </TableBody>
+          </Table>
+        </DialogContent>
+        {/* Action buttons */}
+        <DialogActions>
+          <Button 
+            className={classes.buttonPrimaryDialog}
+            onClick={() => this.argsListDialogHandle()}
+          >
+            { this.context.dictionary.general.close }
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
+
 
     const headCells = [
       { id: "id", numeric: false, label: this.context.dictionary.home.tableHeaderId },
@@ -486,6 +536,7 @@ class Home extends React.Component {
       { id: "password", numeric: false, label: this.context.dictionary.home.tableHeaderPassword },
       { id: "timeout", numeric: false, label: this.context.dictionary.home.tableHeaderTimeout },
       { id: "time", numeric: false, label: this.context.dictionary.home.tableHeaderTime },
+      { id: "args", numeric: false, label: this.context.dictionary.home.tableHeaderArgs },
     ]
     
     return (
@@ -495,6 +546,7 @@ class Home extends React.Component {
         { newGameDialog } 
         { gameListDialog } 
         { gameDetailsDialog } 
+        { argsListDialog } 
 
         <Grid container>
           <Grid item xs={12} sm={6}>
@@ -599,17 +651,37 @@ class Home extends React.Component {
                               <TableCell>
                                 {
                                   row.verified ?
-                                    <Check />
+                                    <IconButton 
+                                      size="small"
+                                      disabled
+                                    >
+                                      <Check className={classes.tableIcon}/>
+                                    </IconButton>
                                   :
-                                    <Close />
+                                    <IconButton 
+                                      size="small"
+                                      disabled
+                                    >
+                                      <Cancel className={classes.tableIcon}/>
+                                    </IconButton>
                                 }
                               </TableCell>
                               <TableCell>
                                 {
                                   row.password ?
-                                    <Check />
+                                    <IconButton 
+                                      size="small"
+                                      disabled
+                                    >
+                                      <Check className={classes.tableIcon}/>
+                                    </IconButton>
                                   :
-                                    <Close />
+                                    <IconButton 
+                                      size="small"
+                                      disabled
+                                    >
+                                      <Cancel className={classes.tableIcon}/>
+                                    </IconButton>
                                 }
                               </TableCell>
                               <TableCell>{row.timeout}</TableCell>
@@ -622,8 +694,25 @@ class Home extends React.Component {
                                 }
                               </TableCell>
                               <TableCell>
-                                <IconButton 
-                                  className={classes.margin} 
+                                {
+                                  Object.keys(row.args).length > 0 ?
+                                    <IconButton 
+                                      size="small"
+                                      onClick={() => this.showArgs(row.args)}
+                                    >
+                                      <Info />
+                                    </IconButton>
+                                  :
+                                  <IconButton 
+                                    size="small"
+                                    disabled
+                                  >
+                                    <Cancel className={classes.tableIcon}/>
+                                  </IconButton>
+                                }
+                              </TableCell>
+                              <TableCell>
+                                <IconButton
                                   size="small"
                                   onClick={() => this.goToSpectatePage(row.id)}
                                 >
@@ -893,6 +982,16 @@ class Home extends React.Component {
   gameDetailsDialogHandle() {
     let status = this.state.gameDetailsDialogStatus;
     this.setState({ gameDetailsDialogStatus: !status });
+  }
+
+  argsListDialogHandle() {
+    let status = this.state.argsListDialogStatus;
+    this.setState({ argsListDialogStatus: !status });
+  }
+
+  showArgs(args) {
+    this.setState({ argToList: args });
+    this.argsListDialogHandle();
   }
 
   async goToSpectatePage(matchId) {

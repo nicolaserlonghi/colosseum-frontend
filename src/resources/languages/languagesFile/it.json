@@ -57,11 +57,15 @@
     "tableHeaderTimeout": "Timeout",
     "tableHeaderTime": "Tempo",
     "tableHeaderPassword": "Password",
+    "tableHeaderArgs": "Args",
     "tableTimeExpires": "Scade alle",
     "tableTimeStart": "Iniziata alle",
     "buttonAddNewGame": "Nuova partita",
     "buttonGameList": "Lista dei giochi",
-    "gameListDialogTitle": "Lista dei giochi"
+    "gameListDialogTitle": "Lista dei giochi",
+    "argsListDialogTitle": "Argomenti aggiuntivi impostati",
+    "argsListDialogKeyHeader": "Chiave",
+    "argsListDialogValueHeader": "Valore"
   },
   
   "spectate": {

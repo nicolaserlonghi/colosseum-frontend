@@ -2,7 +2,7 @@ const lightGreen = '#8bc34a';
 const white = '#F2F2F2';
 const black = '#000000';
 const grey = '#E0E0E0';
-const darkGrey = '#BDBDBD';
+const darkGrey = '#757575';
 const veryDarkGrey = '#4F4F4F';
 
 const defaultPrimaryColor = lightGreen;
@@ -23,7 +23,8 @@ const colors = {
     errorText: 'red',
     tableMessage: veryDarkGrey,
 
-    iconButtonDialog: veryDarkGrey,
+    iconButtonDialog: darkGrey,
+    iconTable: darkGrey,
 
     white: white,
     black: black,
