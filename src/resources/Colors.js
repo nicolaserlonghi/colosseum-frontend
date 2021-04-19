@@ -23,6 +23,8 @@ const colors = {
     errorText: 'red',
     tableMessage: veryDarkGrey,
 
+    iconButtonDialog: veryDarkGrey,
+
     white: white,
     black: black,
 };

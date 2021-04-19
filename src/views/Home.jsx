@@ -26,7 +26,12 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import TableContainer from '@material-ui/core/TableContainer';
-import Box from '@material-ui/core/Box';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 
 import RightIcon from '@material-ui/icons/KeyboardArrowRight';
 import Visibility from '@material-ui/icons/Visibility';
@@ -36,8 +41,9 @@ import Check from '@material-ui/icons/CheckRounded';
 import Close from '@material-ui/icons/CloseRounded';
 import AddCircle from '@material-ui/icons/AddCircleOutlineRounded';
 import DeleteIcon from "@material-ui/icons/DeleteRounded";
+import ExpandMore from "@material-ui/icons/ExpandMoreRounded";
 
-import TimeField from 'react-simple-timefield';
+import ReactMarkdown from 'react-markdown';
 
 import HomeStyle from 'resources/styles/HomeStyle.jsx';
 import { LanguageContext } from 'resources/languages/Language.js';
@@ -52,13 +58,10 @@ class Home extends React.Component {
     this.state = {
       loading: true,
       clientLobbySubscribe: null,
-      
       rowsPerPage: 10,
       pageNumber: 0,
       order: "asc",
       orderBy: 'name',
-
-
       passwordVisible: false,
       verificationVisible: false,
       emptyDialogError: false,
@@ -78,11 +81,14 @@ class Home extends React.Component {
         password: null,
         verification: null,
       },
+      argsElement: [],
       gameList: [],
+      gameListDialogStatus: false,
+      gameDetailsDialogStatus: false,
+      gameName: "",
+      gameDescription: "",
       lobbyList: [],
       lobbyListBackup: [],
-
-      argsElement: [],
     }
   }
 
@@ -407,6 +413,69 @@ class Home extends React.Component {
       </Dialog>
     );
 
+    const gameListDialog = (
+      <Dialog 
+        open={this.state.gameListDialogStatus} 
+        onClose={() => this.gameListDialogHandle()}
+        fullWidth={true}
+        maxWidth={"xs"}
+        scroll={"paper"}
+        // PaperProps={{className: classes.dialogPaper}}
+      >
+        <DialogTitle className={classes.dialogTitle}>
+          { this.context.dictionary.home.gameListDialogTitle }
+        </DialogTitle>
+        <DialogContent>
+          <List>
+            {
+              this.state.gameList.map((gameName, i) => (
+                <ListItem button onClick={() => this.handleGameDialogClick(gameName)} key={i}>
+                  <ListItemText primary={gameName} />
+                  <ListItemSecondaryAction>
+                    <RightIcon className={classes.iconDialog}/>
+                  </ListItemSecondaryAction>
+                </ListItem>
+              ))
+            }
+          </List>
+        </DialogContent>
+        {/* Action buttons */}
+        <DialogActions>
+          <Button 
+            className={classes.buttonPrimaryDialog}
+            onClick={() => this.gameListDialogHandle()}
+          >
+            { this.context.dictionary.general.close }
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
+
+    const gameDetailsDialog = (
+      <Dialog 
+        open={this.state.gameDetailsDialogStatus} 
+        onClose={() => this.gameDetailsDialogHandle()}
+        fullScreen
+      >
+        <AppBar className={classes.gameDetailsDialogAppBar}>
+          <Toolbar>
+            <IconButton edge="start" color="inherit" onClick={() => this.gameDetailsDialogHandle()}>
+              <Close />
+            </IconButton>
+            <Typography variant="h6">
+              { this.state.gameName }
+            </Typography>
+          </Toolbar>
+        </AppBar>
+        <DialogContent>
+          <ReactMarkdown>
+            { this.state.gameDescription }
+          </ReactMarkdown>
+        </DialogContent>
+      </Dialog>
+    );
+
+
     const headCells = [
       { id: "id", numeric: false, label: this.context.dictionary.home.tableHeaderId },
       { id: "name", numeric: false, label: this.context.dictionary.home.tableHeaderName },
@@ -424,6 +493,8 @@ class Home extends React.Component {
         { this.state.loading ?  <Spinner open={this.state.loading} /> : null }
 
         { newGameDialog } 
+        { gameListDialog } 
+        { gameDetailsDialog } 
 
         <Grid container>
           <Grid item xs={12} sm={6}>
@@ -462,7 +533,21 @@ class Home extends React.Component {
               </IconButton>
             </Paper>
           </Grid>
+          <Grid item xs={0} sm={5}>
+          </Grid>
+          <Grid item xs={12} sm={3}>
+            <Button
+              className={classes.buttonSecondary}
+              fullWidth
+              variant="outlined"
+              startIcon={<ExpandMore />}
+              onClick={() => this.gameListDialogHandle()}
+            >
+              {this.context.dictionary.home.buttonGameList}
+            </Button>
+          </Grid>
         </Grid>
+
 
         <Grid container>
           <Grid item xs={12}>
@@ -571,7 +656,6 @@ class Home extends React.Component {
             </TableContainer>
           </Grid>
         </Grid>
-
       </React.Fragment>
     )
   }
@@ -777,6 +861,38 @@ class Home extends React.Component {
     let argsElement = this.state.argsElement;
     argsElement[index][key] = event.target.value.trim();
     this.setState({ argsElement: argsElement });
+  }
+
+  gameListDialogHandle() {
+    let status = this.state.gameListDialogStatus;
+    this.setState({ gameListDialogStatus: !status });
+  }
+
+  handleGameDialogClick(gameName) {
+    this.getGameDescription(gameName);
+    this.gameListDialogHandle();
+    this.gameDetailsDialogHandle();
+  }
+
+  async getGameDescription(gameName) {
+    this.setState({ loading: true });
+    let description = "";
+    try {
+      let result = await WebSocket.sendJson({"GameDescription": {"name": gameName}});
+      description = result.GameDescription.description;
+    } catch(err) {
+      console.log('err: ', err);
+    }
+    this.setState({
+      gameName: gameName,
+      gameDescription: description,
+      loading: false,
+    });
+  }
+
+  gameDetailsDialogHandle() {
+    let status = this.state.gameDetailsDialogStatus;
+    this.setState({ gameDetailsDialogStatus: !status });
   }
 
   async goToSpectatePage(matchId) {

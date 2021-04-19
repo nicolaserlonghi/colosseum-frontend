@@ -59,7 +59,9 @@
     "tableHeaderPassword": "Password",
     "tableTimeExpires": "Expires at",
     "tableTimeStart": "Start at",
-    "buttonAddNewGame": "New game"
+    "buttonAddNewGame": "New game",
+    "buttonGameList": "Games list",
+    "gameListDialogTitle": "Games list"
   },
 
   "spectate": {

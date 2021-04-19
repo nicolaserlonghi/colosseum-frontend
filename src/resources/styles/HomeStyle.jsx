@@ -12,9 +12,19 @@ const homeStyle = theme => ({
     borderRadius: '10px',
     background: colors.primaryColor,
     color: colors.white,
+    fontFamily:"Roboto",
     "&,&:focus,&:hover": {
       background: colors.primaryColor
     }
+  },
+
+  buttonSecondary: {
+    borderRadius: '10px',
+    color: colors.primaryColor,
+    fontFamily:"Roboto",
+    textTransform: 'none',
+    fontSize: '15px',
+    fontWeight: 500,
   },
 
   tableHeader: {
@@ -85,6 +95,15 @@ const homeStyle = theme => ({
     "& .MuiInput-underline:after": {
       borderBottomColor: colors.textButtonDialog,
     }
+  },
+
+  gameDetailsDialogAppBar: {
+    background: colors.primaryColor,
+    position: 'relative',
+  },
+
+  iconDialog: {
+    color: colors.iconButtonDialog,
   },
 
   errorText: {
