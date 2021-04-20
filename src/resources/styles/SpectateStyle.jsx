@@ -17,6 +17,19 @@ const spectateStyle = theme => ({
     }
   },
 
+  tableHeader: {
+    // backgroundColor: '#EEEEEE',
+    fontFamily: 'Roboto'
+  },
+
+  tableRow: {
+    fontFamily: 'Roboto'
+  },
+
+  tableIcon: {
+    color: colors.iconTable,
+  },
+
   dialogPaper: {
     borderRadius: '20px',
   },

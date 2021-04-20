@@ -73,6 +73,21 @@
     "buttonLeave": "Lascia la partita",
     "dialogErrorTitle": "Ops! Qualcosa è andato storto...",
     "dialogErrorDeleteTitle": "La partita non è ancora iniziata o è scaduta!",
-    "dialogErrorEndTitle": "La partita è terminata!"
+    "dialogErrorEndTitle": "La partita è terminata!",
+    "argsListDialogTitle": "Argomenti aggiuntivi impostati",
+    "argsListDialogKeyHeader": "Chiave",
+    "argsListDialogValueHeader": "Valore",
+    "tableHeaderId": "Id",
+    "tableHeaderName": "Nome",
+    "tableHeaderGame": "Gioco",
+    "tableHeaderPlayers": "Giocatori",
+    "tableHeaderSpectators": "Spettatori",
+    "tableHeaderVerified": "Verificata",
+    "tableHeaderPassword": "Password",
+    "tableHeaderTimeout": "Timeout",
+    "tableHeaderTime": "Tempo",
+    "tableHeaderArgs": "Args",
+    "tableTimeStart": "Iniziata alle",
+    "tableTimeExpires": "Scade alle"
   }
 }

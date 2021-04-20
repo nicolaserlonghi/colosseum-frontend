@@ -32,6 +32,10 @@ const homeStyle = theme => ({
     fontFamily: 'Roboto'
   },
 
+  tableRow: {
+    fontFamily: 'Roboto'
+  },
+
   tableTitle: {
     fontWeight: 'bold',
     fontFamily: 'Roboto'

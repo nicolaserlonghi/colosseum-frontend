@@ -73,6 +73,21 @@
     "buttonLeave": "Leave the game",
     "dialogErrorTitle": "Ops! Something went wrong...",
     "dialogErrorDeleteTitle": "The game has not started yet or has expired!",
-    "dialogErrorEndTitle": "The game is over!"
+    "dialogErrorEndTitle": "The game is over!",
+    "argsListDialogTitle": "Additional arguments set",
+    "argsListDialogKeyHeader": "Key",
+    "argsListDialogValueHeader": "Value",
+    "tableHeaderId": "Id",
+    "tableHeaderName": "Name",
+    "tableHeaderGame": "Game",
+    "tableHeaderPlayers": "Players",
+    "tableHeaderSpectators": "Spectators",
+    "tableHeaderVerified": "Verified",
+    "tableHeaderPassword": "Password",
+    "tableHeaderTimeout": "Timeout",
+    "tableHeaderTime": "Time",
+    "tableHeaderArgs": "Args",
+    "tableTimeStart": "Start at",
+    "tableTimeExpires": "Expires at"
   }
 }
