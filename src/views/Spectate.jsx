@@ -38,6 +38,7 @@ class Spectate extends React.Component {
       errorDialogStatus: false,
       errorDialogTitle: "",
       errorDialogMessage: false,
+      errorDialogButtonAction: null,
       clientSpectate: null,
       matchId: null,
       matchInfo: null,
@@ -113,7 +114,8 @@ class Spectate extends React.Component {
       this.setState({
         errorDialogTitle: title,
         errorDialogMessage: message,
-        errorDialogStatus: true
+        errorDialogStatus: true,
+        errorDialogButtonAction: null,
       });
     } else if('Ok' in info) {
       let matchInfo = info.Ok;
@@ -131,7 +133,8 @@ class Spectate extends React.Component {
     this.setState({
       errorDialogTitle: title,
       errorDialogMessage: false,
-      errorDialogStatus: true
+      errorDialogStatus: true,
+      errorDialogButtonAction: null,
     });
   }
 
@@ -140,7 +143,12 @@ class Spectate extends React.Component {
     this.setState({
       errorDialogTitle: title,
       errorDialogMessage: false,
-      errorDialogStatus: true
+      errorDialogStatus: true,
+      errorDialogButtonAction: () => this.setState({ 
+        errorDialogStatus: false,
+        errorDialogMessage: false,
+        errorDialogTitle: "",
+      })
     });
   }
 
@@ -160,10 +168,12 @@ class Spectate extends React.Component {
     const errorDialog = (
       <Dialog 
         open={this.state.errorDialogStatus} 
-        onClose={() => {
-          this.setState({ errorDialogStatus: false });
-          this.goToHomePage();
-        }}
+        onClose={
+          this.state.errorDialogButtonAction ?
+            this.state.errorDialogButtonAction
+          :
+            () => this.goToHomePage()
+        }
         fullWidth={true}
         // PaperProps={{className: classes.dialogPaper}}
       >
@@ -184,7 +194,12 @@ class Spectate extends React.Component {
         <DialogActions>
           <Button 
             className={classes.buttonPrimaryDialog}
-            onClick={() => this.goToHomePage()}
+            onClick={
+              this.state.errorDialogButtonAction ?
+                this.state.errorDialogButtonAction
+              :
+                () => this.goToHomePage()
+            }
           >
             { this.context.dictionary.general.ok }
           </Button>
