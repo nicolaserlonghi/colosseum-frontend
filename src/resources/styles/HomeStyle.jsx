@@ -84,13 +84,6 @@ const homeStyle = theme => ({
     textTransform: 'none',
   },
 
-  dialogTextTitle: {
-    fontSize: '24px',
-    color: colors.titleDialog,
-    fontWeight: 'bold',
-    fontFamily:"Roboto",
-  },
-
   dialogTextField: {
     fontFamily:"Roboto",
     "& label.Mui-focused": {

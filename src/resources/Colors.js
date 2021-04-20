@@ -1,11 +1,12 @@
-const lightGreen = '#8bc34a';
-const white = '#F2F2F2';
+const lightBlue = '#3473AD';
+const white = '#FFFFFF';
 const black = '#000000';
+const lightGrey = '#929292';
 const grey = '#E0E0E0';
-const darkGrey = '#757575';
+const darkGrey = '#7B7B7B';
 const veryDarkGrey = '#4F4F4F';
 
-const defaultPrimaryColor = lightGreen;
+const defaultPrimaryColor = lightBlue;
 
 
 const colors = {
@@ -13,18 +14,19 @@ const colors = {
     primaryColor: defaultPrimaryColor,
 
     /* -----------------------  Backgroun Color  ---------------------------- */
-    background: white,
+    background: '#131516',
+    // backgroundAppBar: '#424242',
+    backgroundAppBar: '#292D2F',
 
     /* -------------------------  Text Color  ------------------------------- */
-    textMenu: black,
+    textMenu: white,
     textAppBar: white,
     textButtonDialog: defaultPrimaryColor,
-    titleDialog: black,
     errorText: 'red',
-    tableMessage: veryDarkGrey,
+    tableMessage: lightGrey,
 
-    iconButtonDialog: darkGrey,
-    iconTable: darkGrey,
+    iconButtonDialog: white,
+    iconTable: white,
 
     white: white,
     black: black,

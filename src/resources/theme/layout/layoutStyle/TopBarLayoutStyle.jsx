@@ -6,7 +6,7 @@ const topBarLayoutStyle = theme => ({
   },
 
   appBar: {
-    backgroundColor: Colors.primaryColor,
+    backgroundColor: Colors.backgroundAppBar,
     height: '64px',
   },
 
