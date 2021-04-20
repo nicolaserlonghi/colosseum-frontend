@@ -28,6 +28,7 @@ import { LanguageContext } from 'resources/languages/Language.js';
 import Spinner from 'views/Spinner.jsx';
 import WebSocket from 'api/WebSocketManager.js';
 import Constants from 'Constants.js';
+import CanvasManager from 'canvas/CanvasManager.jsx';
 
 
 class Spectate extends React.Component {
@@ -161,7 +162,6 @@ class Spectate extends React.Component {
   }
 
 
-
   render() {
     const classes = this.props.classes;
 
@@ -269,6 +269,7 @@ class Spectate extends React.Component {
       ]
       time = new Date(this.state.matchInfo.time * 1000);
     }
+
 
     return (
       <React.Fragment>
@@ -392,12 +393,13 @@ class Spectate extends React.Component {
                   </TableBody>
                 </Table>
               </TableContainer>
+              <br/><br/>
+              {/* Canvas Manager */}
+              <CanvasManager />
             </React.Fragment>
           :
             null
         }
-        
-
       </React.Fragment>
     )
   }
