@@ -143,7 +143,6 @@ class Home extends React.Component {
       default:
         console.log("ERR: I don't know the lobby message type " + message);
     }
-    console.log('lobbyList: ', this.state.lobbyList);
   }
 
   manageLobbyMessageSubscribed(bodyMessage) {

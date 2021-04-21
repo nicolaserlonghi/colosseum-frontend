@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {forwardRef, useImperativeHandle} from 'react';
 
 import { useCanvas } from 'canvas/UseCanvas.js';
 import 'canvas/CanvasStyle.css';
 
 
-function CanvasManager() {
+
+const CanvasManager = forwardRef((props, ref) => {
+
   
   const [ coordinates, setCoordinates, canvasRef, canvasWidth, canvasHeight ] = useCanvas();
 
@@ -18,6 +20,25 @@ function CanvasManager() {
   const handleClearCanvas=(event)=>{
     setCoordinates([]);
   };
+
+
+  useImperativeHandle(ref, () => ({
+
+    manageSpectateMessageStarted(bodyMessage) {
+      // Manage started message from API
+    },
+
+    manageSpectateMessageSynced(bodyMessage) {
+      // Manage synced message from API
+    },
+
+    async manageGameBinaryMessage(bodyMessage) {
+      // Manage binary message from API
+      // bodyMessage is a blob type, this is an example of how to convert it
+      let text = await (new Response(bodyMessage)).text();
+      console.log('text: ', text);
+    },
+  }));
 
   return (
     <main className="App-main" >
@@ -34,6 +55,6 @@ function CanvasManager() {
     </main>
   );
 
-};
+});
 
 export default CanvasManager;

@@ -7,7 +7,7 @@ const constants = {
     lobbyMessageDelete: "LobbyDelete",
 
     spectateMessageJoined: "SpectateJoined",
-    spectateMessageEnd: "SpectateEnd",
+    spectateMessageEnd: "SpectateEnded",
     spectateMessageStarted: "SpectateStarted",
     spectateMessageSynced: "SpectateSynced",
 

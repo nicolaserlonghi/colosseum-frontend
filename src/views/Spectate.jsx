@@ -53,6 +53,9 @@ class Spectate extends React.Component {
     } else {
       this.props.history.push('home')
     }
+
+    /* Canvas Manager */
+    this.canvasManager = React.createRef();
   }
 
   async componentDidMount() {
@@ -64,13 +67,12 @@ class Spectate extends React.Component {
       let clientSub = await WebSocket.subscribe({"SpectateJoin": { "id": this.state.matchId }});
       this.setState({ clientSpectate: clientSub })
       clientSub.onmessage = async (message) => {
-        let parsedMessage = WebSocket.messageResponseToJson(message);
-        this.manageSpectateMessage(parsedMessage);
-
-        // let text = await (new Response(message.data)).text();
-        // console.log('text: ', text);
-
-
+        if (typeof message.data === 'string') {
+          let parsedMessage = WebSocket.messageResponseToJson(message);
+          this.manageSpectateMessage(parsedMessage);
+        } else {
+          this.manageGameBinaryMessage(message.data);
+        }
         this.setState({ loading: false });
       }
     } catch(err) {
@@ -80,9 +82,7 @@ class Spectate extends React.Component {
 
   manageSpectateMessage(message) {
     let type = Object.keys(message)[0];
-    console.log('type: ', type);
     let bodyMessage = message[type];
-    console.log('bodyMessage: ', bodyMessage);
     switch(type) {
       case Constants.spectateMessageJoined:
         this.manageSpectateMessageJoined(bodyMessage);
@@ -154,11 +154,24 @@ class Spectate extends React.Component {
   }
 
   manageSpectateMessageStarted(bodyMessage) {
-    console.log('spectateMessageStarted: ', bodyMessage);
+    if(this.canvasManager != null)
+      this.canvasManager.current.manageSpectateMessageStarted(bodyMessage);
+    else
+      console.log("ERR in manageSpectateMessageStarted: canvasManager is null");
   }
 
   manageSpectateMessageSynced(bodyMessage) {
-    console.log('manageSpectateMessageSynced: ', bodyMessage);
+    if(this.canvasManager != null)
+      this.canvasManager.current.manageSpectateMessageSynced(bodyMessage);
+    else
+      console.log("ERR in manageSpectateMessageSynced: canvasManager is null");
+  }
+
+  manageGameBinaryMessage(bodyMessage) {
+    if(this.canvasManager != null)
+      this.canvasManager.current.manageGameBinaryMessage(bodyMessage);
+    else
+      console.log("ERR in manageGameBinaryMessage: canvasManager is null");
   }
 
 
@@ -300,7 +313,7 @@ class Spectate extends React.Component {
               </Grid>
               <br/>
               <Grid container>
-                <Grid item xs={9}>
+                <Grid item xs={12}>
                   <TableContainer component={Paper}>
                     <Table>
                       <TableHead className={classes.tableHeader}>
@@ -397,7 +410,7 @@ class Spectate extends React.Component {
               </Grid>
               <br/><br/>
               {/* Canvas Manager */}
-              <CanvasManager />
+              <CanvasManager ref={this.canvasManager} />
             </React.Fragment>
           :
             null
