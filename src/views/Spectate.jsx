@@ -257,7 +257,6 @@ class Spectate extends React.Component {
     if(this.state.matchInfo) {
       headCells = [
         { id: "id", numeric: false, label: this.context.dictionary.spectate.tableHeaderId },
-        { id: "name", numeric: false, label: this.context.dictionary.spectate.tableHeaderName },
         { id: "game", numeric: false, label: this.context.dictionary.spectate.tableHeaderGame },
         { id: "players", numeric: true, label: this.context.dictionary.spectate.tableHeaderPlayers },
         { id: "spectators", numeric: true, label: this.context.dictionary.spectate.tableHeaderSpectators },
@@ -299,100 +298,103 @@ class Spectate extends React.Component {
                   </Button>
                 </Grid>
               </Grid>
-              <br/><br/>
-              <TableContainer component={Paper}>
-                <Table>
-                  <TableHead className={classes.tableHeader}>
-                    <TableRow>
-                      {
-                        headCells.map(headCell => (
-                          <TableCell key={headCell.id}>
-                            {headCell.label}
-                          </TableCell>
-                        ), this)
-                      }
-                    </TableRow>
-                  </TableHead>
+              <br/>
+              <Grid container>
+                <Grid item xs={9}>
+                  <TableContainer component={Paper}>
+                    <Table>
+                      <TableHead className={classes.tableHeader}>
+                        <TableRow>
+                          {
+                            headCells.map(headCell => (
+                              <TableCell key={headCell.id}>
+                                {headCell.label}
+                              </TableCell>
+                            ), this)
+                          }
+                        </TableRow>
+                      </TableHead>
 
-                  <TableBody>
-                    <TableRow 
-                      key={this.state.matchInfo.id} 
-                      className={classes.tableRow}
-                      hover
-                      tabIndex={-1}
-                    >
-                      <TableCell>{this.state.matchInfo.id}</TableCell>
-                      <TableCell>{this.state.matchInfo.name}</TableCell>
-                      <TableCell>{this.state.matchInfo.game}</TableCell>
-                      <TableCell>{(this.state.matchInfo.connected.length) + "/" + this.state.matchInfo.players}</TableCell>
-                      <TableCell>{this.state.matchInfo.spectators}</TableCell>
-                      <TableCell>
-                        {
-                          this.state.matchInfo.verified ?
-                            <IconButton 
-                              size="small"
-                              disabled
-                            >
-                              <Check className={classes.tableIcon}/>
-                            </IconButton>
-                          :
-                            <IconButton 
-                              size="small"
-                              disabled
-                            >
-                              <Cancel className={classes.tableIcon}/>
-                            </IconButton>
-                        }
-                      </TableCell>
-                      <TableCell>
-                        {
-                          this.state.matchInfo.password ?
-                            <IconButton 
-                              size="small"
-                              disabled
-                            >
-                              <Check className={classes.tableIcon}/>
-                            </IconButton>
-                          :
-                            <IconButton 
-                              size="small"
-                              disabled
-                            >
-                              <Cancel className={classes.tableIcon}/>
-                            </IconButton>
-                        }
-                      </TableCell>
-                      <TableCell>{this.state.matchInfo.timeout}</TableCell>
-                      <TableCell>
-                        {
-                          this.state.matchInfo.running ?
-                            this.context.dictionary.spectate.tableTimeStart + " " + time.getHours() + (time.getMinutes() < 10 ? ':0' : ":") + time.getMinutes()
-                          :
-                            this.context.dictionary.spectate.tableTimeExpires + " " + time.getHours() + (time.getMinutes() < 10 ? ':0' : ":") + time.getMinutes()
-                        }
-                      </TableCell>
-                      <TableCell>
-                        {
-                          Object.keys(this.state.matchInfo.args).length > 0 ?
-                            <IconButton 
-                              size="small"
-                              onClick={() => this.showArgs(this.state.matchInfo.args)}
-                            >
-                              <Info />
-                            </IconButton>
-                          :
-                          <IconButton 
-                            size="small"
-                            disabled
-                          >
-                            <Cancel className={classes.tableIcon}/>
-                          </IconButton>
-                        }
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </TableContainer>
+                      <TableBody>
+                        <TableRow 
+                          key={this.state.matchInfo.id} 
+                          className={classes.tableRow}
+                          hover
+                          tabIndex={-1}
+                        >
+                          <TableCell>{this.state.matchInfo.id}</TableCell>
+                          <TableCell>{this.state.matchInfo.game}</TableCell>
+                          <TableCell>{(this.state.matchInfo.connected.length) + "/" + this.state.matchInfo.players}</TableCell>
+                          <TableCell>{this.state.matchInfo.spectators}</TableCell>
+                          <TableCell>
+                            {
+                              this.state.matchInfo.verified ?
+                                <IconButton 
+                                  size="small"
+                                  disabled
+                                >
+                                  <Check className={classes.tableIcon}/>
+                                </IconButton>
+                              :
+                                <IconButton 
+                                  size="small"
+                                  disabled
+                                >
+                                  <Cancel className={classes.tableIcon}/>
+                                </IconButton>
+                            }
+                          </TableCell>
+                          <TableCell>
+                            {
+                              this.state.matchInfo.password ?
+                                <IconButton 
+                                  size="small"
+                                  disabled
+                                >
+                                  <Check className={classes.tableIcon}/>
+                                </IconButton>
+                              :
+                                <IconButton 
+                                  size="small"
+                                  disabled
+                                >
+                                  <Cancel className={classes.tableIcon}/>
+                                </IconButton>
+                            }
+                          </TableCell>
+                          <TableCell>{this.state.matchInfo.timeout}</TableCell>
+                          <TableCell>
+                            {
+                              this.state.matchInfo.running ?
+                                this.context.dictionary.spectate.tableTimeStart + " " + time.getHours() + (time.getMinutes() < 10 ? ':0' : ":") + time.getMinutes()
+                              :
+                                this.context.dictionary.spectate.tableTimeExpires + " " + time.getHours() + (time.getMinutes() < 10 ? ':0' : ":") + time.getMinutes()
+                            }
+                          </TableCell>
+                          <TableCell>
+                            {
+                              Object.keys(this.state.matchInfo.args).length > 0 ?
+                                <IconButton 
+                                  size="small"
+                                  onClick={() => this.showArgs(this.state.matchInfo.args)}
+                                >
+                                  <Info />
+                                </IconButton>
+                              :
+                              <IconButton 
+                                size="small"
+                                disabled
+                              >
+                                <Cancel className={classes.tableIcon}/>
+                              </IconButton>
+                            }
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Grid>
+              </Grid>
               <br/><br/>
               {/* Canvas Manager */}
               <CanvasManager />
