@@ -94,7 +94,7 @@ class Spectate extends React.Component {
         this.manageLobbyMessageDelete(bodyMessage);
         break;
       case Constants.spectateMessageEnd:
-        this.manageSpectateMessageEnd(bodyMessage);
+        this.manageSpectateMessageEnded(bodyMessage);
         break;
       case Constants.spectateMessageStarted:
         this.manageSpectateMessageStarted(bodyMessage);
@@ -139,7 +139,8 @@ class Spectate extends React.Component {
     });
   }
 
-  manageSpectateMessageEnd(bodyMessage) {
+  manageSpectateMessageEnded(bodyMessage) {
+    this.canvasManager.current.manageSpectateMessageEnded(bodyMessage);
     let title = this.context.dictionary.spectate.dialogErrorEndTitle
     this.setState({
       errorDialogTitle: title,

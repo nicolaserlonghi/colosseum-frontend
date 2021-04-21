@@ -32,6 +32,10 @@ const CanvasManager = forwardRef((props, ref) => {
       // Manage synced message from API
     },
 
+    manageSpectateMessageEnded(bodyMessage) {
+      // Manage ended message from API
+    },
+
     async manageGameBinaryMessage(bodyMessage) {
       // Manage binary message from API
       // bodyMessage is a blob type, this is an example of how to convert it
