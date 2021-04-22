@@ -264,7 +264,9 @@ class Home extends React.Component {
             InputProps={{ 
               min: "0",
               step: "1",
-              startAdornment: <InputAdornment position="start">Sec</InputAdornment>,
+              startAdornment: <InputAdornment position="start">
+                { this.context.dictionary.home.newGameTimeoutMeasureUnit }
+              </InputAdornment>,
              }}
             fullWidth
             className={classes.dialogTextField}

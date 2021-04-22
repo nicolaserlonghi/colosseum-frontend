@@ -42,6 +42,7 @@
     "newGameInputPlayersNum": "Number of players",
     "newGameInputBotsNum": "Number of bots",
     "newGameInputTimeout": "Maximum time in seconds to make a move",
+    "newGameTimeoutMeasureUnit": "Seconds",
     "newGameInputPassword": "Password",
     "newGameInputVerification": "Verify the game",
     "newGameInputArgKey": "Key",
