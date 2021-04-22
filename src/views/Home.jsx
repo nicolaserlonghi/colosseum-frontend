@@ -245,7 +245,6 @@ class Home extends React.Component {
           />
           {/* bots input */}
           <TextField
-            required
             margin="dense"
             label={this.context.dictionary.home.newGameInputBotsNum}
             value={this.state.newGameDialogData.params.bots}
@@ -852,7 +851,7 @@ class Home extends React.Component {
       errorFromServer: false,
     });
     let newGame = JSON.parse(JSON.stringify(this.state.newGameDialogData));
-    if(!newGame.name || newGame.game === null || !newGame.params.bots) {
+    if(!newGame.name || newGame.game === null) {
       this.setState({ 
         loading: false, 
         emptyDialogError: true,
@@ -889,7 +888,7 @@ class Home extends React.Component {
       return;
     }
     newGame.params.players = newGame.params.players ? Number(newGame.params.players) : null;
-    newGame.params.bots = Number(newGame.params.bots);
+    newGame.params.bots = newGame.params.bots ? Number(newGame.params.bots) : 0;
     newGame.game = this.state.gameList[newGame.game];
     newGame.params.timeout = newGame.params.timeout ? Number(newGame.params.timeout) : null;
     try {
