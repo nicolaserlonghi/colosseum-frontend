@@ -14,9 +14,9 @@ const colors = {
     primaryColor: defaultPrimaryColor,
 
     /* -----------------------  Backgroun Color  ---------------------------- */
-    background: '#131516',
-    // backgroundAppBar: '#424242',
-    backgroundAppBar: '#292D2F',
+    background: '#252729',
+    backgroundAppBar: '#424242',
+    // backgroundAppBar: '#292D2F',
 
     /* -------------------------  Text Color  ------------------------------- */
     textMenu: white,
