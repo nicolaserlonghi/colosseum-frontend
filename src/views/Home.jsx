@@ -469,7 +469,7 @@ class Home extends React.Component {
             </Typography>
           </Toolbar>
         </AppBar>
-        <DialogContent>
+        <DialogContent className={classes.dialogContentMarkDown}>
           <ReactMarkdown>
             { this.state.gameDescription }
           </ReactMarkdown>

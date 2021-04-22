@@ -53,6 +53,7 @@ const homeStyle = theme => ({
     display: 'flex',
     marginBottom: 20,
     width: '100%',
+    width: '100%',
     fontFamily: 'Roboto'
   },
 
@@ -101,6 +102,10 @@ const homeStyle = theme => ({
 
   iconDialog: {
     color: colors.iconButtonDialog,
+  },
+
+  dialogContentMarkDown: {
+    fontFamily:"Roboto",
   },
 
   tableIcon: {
