@@ -46,6 +46,16 @@ const spectateStyle = theme => ({
     fontFamily:"Roboto",
   },
 
+  dialogTextField: {
+    fontFamily:"Roboto",
+    "& label.Mui-focused": {
+      color: colors.textButtonDialog,
+    },
+    "& .MuiInput-underline:after": {
+      borderBottomColor: colors.textButtonDialog,
+    }
+  },
+
   errorText: {
     fontSize: '16px',
     fontWeight: '700',
