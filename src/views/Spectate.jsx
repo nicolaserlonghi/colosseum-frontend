@@ -411,7 +411,11 @@ class Spectate extends React.Component {
               </Grid>
               <br/><br/>
               {/* Canvas Manager */}
-              <CanvasManager ref={this.canvasManager} />
+              <Grid container>
+                <Grid item xs={12}>
+                  <CanvasManager ref={this.canvasManager} matchInfo={this.state.matchInfo} />
+                </Grid>
+              </Grid>
             </React.Fragment>
           :
             null

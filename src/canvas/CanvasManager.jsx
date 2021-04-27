@@ -1,64 +1,94 @@
-import React, {forwardRef, useImperativeHandle} from 'react';
+import React, {forwardRef, useImperativeHandle, useState, useEffect, useRef, useContext, useLayoutEffect} from 'react';
+import withStyles from "@material-ui/core/styles/withStyles"
+import PropTypes from "prop-types"
 
-import { useCanvas } from 'canvas/UseCanvas.js';
-import 'canvas/CanvasStyle.css';
+import Canvas from 'react-responsive-canvas';
 
+import { LanguageContext } from 'resources/languages/Language.js'
+import CanvasManagerStyle from 'resources/styles/CanvasManagerStyle.jsx'
+
+import Roshambo from 'canvas/games/Roshambo.js'
+import Example from 'canvas/games/Example.js'
 
 
 const CanvasManager = forwardRef((props, ref) => {
-
   
-  const [ coordinates, setCoordinates, canvasRef, canvasWidth, canvasHeight ] = useCanvas();
+  const { classes } = props;
+  const matchInfo = props.matchInfo || {};
+  const {dictionary, userLanguage}= useContext(LanguageContext);
+  const canvasClassRef = useRef(null);
+  const canvasRef = useRef(null);
 
-  const handleCanvasClick=(event)=>{
-    // on each click get current mouse location 
-    const currentCoord = { x: event.pageX - event.target.offsetLeft, y: event.pageY - event.target.offsetTop};
-    // add the newest mouse location to an array in state 
-    setCoordinates([...coordinates, currentCoord]);
-  };
 
-  const handleClearCanvas=(event)=>{
-    setCoordinates([]);
-  };
+  // Only performed on upload
+  useEffect(() => initCanvas(), []);
 
+  const initCanvas = () => {
+    const canvasObj = canvasRef.current;
+    canvasClassRef.current = new Example(canvasObj);
+    // getGameCanvas(canvasObj);
+  }
+
+  const getGameCanvas = (canvasObj) => {
+    switch(matchInfo.game) {
+      case 'roshambo':
+        canvasClassRef.current = new Roshambo(canvasObj);
+        break;
+      default:
+        console.log("CANVAS ERR: there is no canvas for the game", matchInfo.game);
+    }
+  }
+
+  // Done on loading and when there is an event
+  useEffect(() => {
+    if(!canvasClassRef || !canvasClassRef.current)
+      return
+    let test = canvasClassRef.current
+    test.setLanguage(userLanguage);
+  });
 
   useImperativeHandle(ref, () => ({
-
     manageSpectateMessageStarted(bodyMessage) {
-      // Manage started message from API
+      canvasClassRef.current.started(bodyMessage);
     },
 
     manageSpectateMessageSynced(bodyMessage) {
-      // Manage synced message from API
+      canvasClassRef.current.synced(bodyMessage);
     },
 
     manageSpectateMessageEnded(bodyMessage) {
-      // Manage ended message from API
+      canvasClassRef.current.ended(bodyMessage);
     },
 
-    async manageGameBinaryMessage(bodyMessage) {
-      // Manage binary message from API
-      // bodyMessage is a blob type, this is an example of how to convert it
-      let text = await (new Response(bodyMessage)).text();
-      console.log('text: ', text);
+    async manageGameBinaryMessage(blobMessage) {
+      canvasClassRef.current.update(blobMessage);
     },
   }));
 
-  return (
-    <main className="App-main" >
-      <canvas 
-        className="App-canvas"
-        ref={canvasRef}
-        width={canvasWidth}
-        height={canvasHeight}
-        onClick={handleCanvasClick} />
+  const handleCanvasClick = (event) => {
+    canvasClassRef.current.handleCanvasClick(event)
+  };
 
-      <div className="button" >
-        <button onClick={handleClearCanvas} > CLEAR </button>
-      </div>
-    </main>
+  const handleCanvasResize = () => {
+    canvasClassRef.current.handleCanvasResize();
+  }
+
+
+  return (
+    <div className={classes.container}>
+      <Canvas
+        className={classes.canvas}
+        canvasRef={el => canvasRef.current = el}
+        onClick={handleCanvasClick}
+        onResize={handleCanvasResize}
+      />
+    </div>
   );
 
 });
 
-export default CanvasManager;
+CanvasManager.propTypes = {
+  classes: PropTypes.object.isRequired,
+  matchInfo: PropTypes.object.isRequired,
+}
+export default withStyles(CanvasManagerStyle)(CanvasManager);
