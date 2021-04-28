@@ -41,7 +41,7 @@
     "newGameInputName": "Name",
     "newGameInputNameGame": "Name of game",
     "newGameInputPlayersNum": "Number of players",
-    "newGameInputBotsNum": "Number of bots",
+    "newGameInputBotsNum": "Number of server bots",
     "newGameInputTimeout": "Maximum time in seconds to make a move",
     "newGameTimeoutMeasureUnit": "Seconds",
     "newGameInputPassword": "Password",
