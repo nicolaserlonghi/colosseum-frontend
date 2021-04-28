@@ -91,8 +91,8 @@ class Home extends React.Component {
       gameDescription: "",
       lobbyList: [],
       lobbyListBackup: [],
-      argsListDialogStatus: false,
-      argToList: {},
+      matchInfoDialogStatus: false,
+      matchDialogInfo: null,
     }
   }
 
@@ -479,51 +479,78 @@ class Home extends React.Component {
       </Dialog>
     );
 
-    const argsListDialog = (
-      <Dialog 
-        open={this.state.argsListDialogStatus} 
-        onClose={() => this.argsListDialogHandle()}
-        scroll={"paper"}
-        // PaperProps={{className: classes.dialogPaper}}
-      >
-        <DialogTitle className={classes.dialogTitle}>
-          { this.context.dictionary.home.argsListDialogTitle }
-        </DialogTitle>
-        <DialogContent>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>
-                  { this.context.dictionary.home.argsListDialogKeyHeader }
-                </TableCell>
-                <TableCell align="center">
-                  { this.context.dictionary.home.argsListDialogValueHeader }
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {
-                Object.entries(this.state.argToList).map((item) => (
-                  <TableRow key={item[0]}>
-                    <TableCell>{item[0]}</TableCell>
-                    <TableCell align="center">{item[1]}</TableCell>
-                  </TableRow>
-                ))
+    let argsListDialog;
+    if(this.state.matchDialogInfo) {
+      argsListDialog = (
+        <Dialog 
+          open={this.state.matchInfoDialogStatus} 
+          onClose={() => this.matchInfoDialogHandle()}
+          fullWidth={true}
+          maxWidth={"xs"}
+          scroll={"paper"}
+          // PaperProps={{className: classes.dialogPaper}}
+        >
+          <DialogTitle className={classes.dialogTitle}>
+            { this.context.dictionary.home.matchInfoDialogTitle }
+          </DialogTitle>
+          <DialogContent>
+            <Typography variant="h3" className={classes.dialogSubtitle}>
+              { this.context.dictionary.home.matchInfoDialogSubtitleConnected}
+            </Typography>
+            <Typography className={classes.dialogContent} style={{ marginTop: '12px' }}>
+              { 
+                this.state.matchDialogInfo.connected.length > 0 ?
+                  this.state.matchDialogInfo.connected.join(', ')
+                :
+                  this.context.dictionary.home.matchInfoDialogNoConnectedLabel
               }
-            </TableBody>
-          </Table>
-        </DialogContent>
-        {/* Action buttons */}
-        <DialogActions>
-          <Button 
-            className={classes.buttonPrimaryDialog}
-            onClick={() => this.argsListDialogHandle()}
-          >
-            { this.context.dictionary.general.close }
-          </Button>
-        </DialogActions>
-      </Dialog>
-    );
+            </Typography>
+            <br/><br/>
+            <Typography variant="h3" className={classes.dialogSubtitle}>
+              { this.context.dictionary.home.matchInfoDialogSubtitleArgs }
+            </Typography>
+            {
+              Object.keys(this.state.matchDialogInfo.args).length > 0 ?
+                <Table className={classes.dialogContent}>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>
+                        { this.context.dictionary.home.matchInfoDialogKeyHeader }
+                      </TableCell>
+                      <TableCell align="center">
+                        { this.context.dictionary.home.matchInfoDialogValueHeader  }
+                      </TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {
+                      Object.entries(this.state.matchDialogInfo.args).map((item) => (
+                        <TableRow key={item[0]}>
+                          <TableCell>{item[0]}</TableCell>
+                          <TableCell align="center">{item[1]}</TableCell>
+                        </TableRow>
+                      ))
+                    }
+                  </TableBody>
+                </Table>
+              :
+                <Typography className={classes.dialogContent} style={{ marginTop: '12px' }}>
+                  { this.context.dictionary.home.matchInfoDialogNoArgsLabel }
+                </Typography>
+            }
+          </DialogContent>
+          {/* Action buttons */}
+          <DialogActions>
+            <Button 
+              className={classes.buttonPrimaryDialog}
+              onClick={() => this.matchInfoDialogHandle()}
+            >
+              { this.context.dictionary.general.close }
+            </Button>
+          </DialogActions>
+        </Dialog>
+      );
+    }
 
 
     const headCells = [
@@ -536,7 +563,7 @@ class Home extends React.Component {
       { id: "password", numeric: false, label: this.context.dictionary.home.tableHeaderPassword },
       { id: "timeout", numeric: false, label: this.context.dictionary.home.tableHeaderTimeout },
       { id: "time", numeric: false, label: this.context.dictionary.home.tableHeaderTime },
-      { id: "args", numeric: false, label: this.context.dictionary.home.tableHeaderArgs },
+      { id: "info", numeric: false, label: this.context.dictionary.home.tableHeaderInfo },
     ]
     
     return (
@@ -693,23 +720,13 @@ class Home extends React.Component {
                                     this.context.dictionary.home.tableTimeExpires + " " + time.getHours() + (time.getMinutes() < 10 ? ':0' : ":") + time.getMinutes()
                                 }
                               </TableCell>
-                              <TableCell>
-                                {
-                                  Object.keys(row.args).length > 0 ?
-                                    <IconButton 
-                                      size="small"
-                                      onClick={() => this.showArgs(row.args)}
-                                    >
-                                      <Info />
-                                    </IconButton>
-                                  :
-                                  <IconButton 
-                                    size="small"
-                                    disabled
-                                  >
-                                    <Cancel className={classes.tableIcon}/>
-                                  </IconButton>
-                                }
+                              <TableCell>  
+                                <IconButton 
+                                  size="small"
+                                  onClick={() => this.showInfo(row)}
+                                >
+                                  <Info />
+                                </IconButton>
                               </TableCell>
                               <TableCell>
                                 <IconButton
@@ -984,14 +1001,14 @@ class Home extends React.Component {
     this.setState({ gameDetailsDialogStatus: !status });
   }
 
-  argsListDialogHandle() {
-    let status = this.state.argsListDialogStatus;
-    this.setState({ argsListDialogStatus: !status });
+  matchInfoDialogHandle() {
+    let status = this.state.matchInfoDialogStatus;
+    this.setState({ matchInfoDialogStatus: !status });
   }
 
-  showArgs(args) {
-    this.setState({ argToList: args });
-    this.argsListDialogHandle();
+  showInfo(match) {
+    this.setState({ matchDialogInfo: match });
+    this.matchInfoDialogHandle();
   }
 
   async goToSpectatePage(matchId) {

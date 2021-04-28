@@ -147,21 +147,21 @@ class Spectate extends React.Component {
   }
 
   manageSpectateMessageStarted(bodyMessage) {
-    if(this.canvasManager != null)
+    if(this.canvasManager && this.canvasManager.current)
       this.canvasManager.current.manageSpectateMessageStarted(bodyMessage);
     else
       console.log("ERR in manageSpectateMessageStarted: canvasManager is null");
   }
 
   manageSpectateMessageSynced(bodyMessage) {
-    if(this.canvasManager != null)
+    if(this.canvasManager && this.canvasManager.current)
       this.canvasManager.current.manageSpectateMessageSynced(bodyMessage);
     else
       console.log("ERR in manageSpectateMessageSynced: canvasManager is null");
   }
 
   manageGameBinaryMessage(bodyMessage) {
-    if(this.canvasManager != null)
+    if(this.canvasManager && this.canvasManager.current) 
       this.canvasManager.current.manageGameBinaryMessage(bodyMessage);
     else
       console.log("ERR in manageGameBinaryMessage: canvasManager is null");
@@ -228,10 +228,10 @@ class Spectate extends React.Component {
             { this.context.dictionary.spectate.matchInfoDialogTitle }
           </DialogTitle>
           <DialogContent>
-            {/* id */}
+            {/* Id */}
             <TextField
               margin="dense"
-              label={this.context.dictionary.spectate.matchInfoDialogLabelId}  ////////////////////////////////////////////
+              label={this.context.dictionary.spectate.matchInfoDialogLabelId}
               defaultValue={this.state.matchInfo.id}
               fullWidth
               InputProps={{
@@ -239,7 +239,7 @@ class Spectate extends React.Component {
               }}
               className={classes.dialogTextField}
             />
-            {/* name */}
+            {/* Name */}
             <TextField
               margin="dense"
               label={this.context.dictionary.spectate.matchInfoDialogLabelName}
@@ -250,7 +250,7 @@ class Spectate extends React.Component {
               }}
               className={classes.dialogTextField}
             />
-            {/* game */}
+            {/* Game */}
             <TextField
               margin="dense"
               label={this.context.dictionary.spectate.matchInfoDialogLabelGame}
@@ -261,11 +261,19 @@ class Spectate extends React.Component {
               }}
               className={classes.dialogTextField}
             />
-            {/* players */}
+            {/* Players */}
             <TextField
               margin="dense"
+              multiline
+              rowsMax={4}
               label={this.context.dictionary.spectate.matchInfoDialogLabelPlayers}
-              defaultValue={(this.state.matchInfo.connected.length) + "/" + this.state.matchInfo.players}
+              defaultValue={
+                this.state.matchInfo.connected.length > 0 ?
+                  "(" + this.state.matchInfo.connected.length + "/" + this.state.matchInfo.players +
+                    "): " + this.state.matchInfo.connected.join(', ')
+                :
+                  this.state.matchInfo.connected.length + "/" + this.state.matchInfo.players
+              }
               fullWidth
               InputProps={{
                 readOnly: true,
@@ -291,9 +299,6 @@ class Spectate extends React.Component {
               fullWidth
               InputProps={{
                 readOnly: true,
-                startAdornment: <InputAdornment position="start">
-                  { this.context.dictionary.spectate.matchInfoDialogTimeoutMeasureUnit }
-                </InputAdornment>,
               }}
               className={classes.dialogTextField}
             />

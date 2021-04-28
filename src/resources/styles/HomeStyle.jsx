@@ -95,6 +95,20 @@ const homeStyle = theme => ({
     }
   },
 
+  dialogSubtitle: {
+    fontSize: '18px',
+    fontWeight: 400,
+    fontFamily:"Roboto",
+  },
+
+  dialogContent: {
+    marginLeft: '5%',
+    width: '95%',
+    fontSize: '15px',
+    fontWeight: 300,
+    fontFamily:"Roboto",
+  },
+
   gameDetailsDialogAppBar: {
     background: colors.primaryColor,
     position: 'relative',

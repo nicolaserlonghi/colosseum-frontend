@@ -58,15 +58,19 @@
     "tableHeaderTimeout": "Timeout",
     "tableHeaderTime": "Time",
     "tableHeaderPassword": "Password",
-    "tableHeaderArgs": "Parameters",
+    "tableHeaderInfo": "Info",
     "tableTimeExpires": "Expires at",
     "tableTimeStart": "Start at",
     "buttonAddNewGame": "New game",
     "buttonGameList": "Games list",
     "gameListDialogTitle": "Games list",
-    "argsListDialogTitle": "Additional parameters set",
-    "argsListDialogKeyHeader": "Key",
-    "argsListDialogValueHeader": "Value"
+    "matchInfoDialogTitle": "Additional information",
+    "matchInfoDialogSubtitleConnected": "Connected players:",
+    "matchInfoDialogSubtitleArgs": "Additional parameters set:",
+    "matchInfoDialogNoConnectedLabel": "No players connected",
+    "matchInfoDialogNoArgsLabel": "No additional parameters set",
+    "matchInfoDialogKeyHeader": "Key",
+    "matchInfoDialogValueHeader": "Value"
   },
 
   "spectate": {
