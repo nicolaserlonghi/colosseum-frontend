@@ -15,7 +15,7 @@ const CanvasManager = forwardRef((props, ref) => {
   
   const { classes } = props;
   const matchInfo = props.matchInfo || {};
-  const {dictionary, userLanguage}= useContext(LanguageContext);
+  const {dictionary, userLanguage} = useContext(LanguageContext);
   const canvasClassRef = useRef(null);
   const canvasRef = useRef(null);
 
@@ -25,14 +25,14 @@ const CanvasManager = forwardRef((props, ref) => {
 
   const initCanvas = () => {
     const canvasObj = canvasRef.current;
-    canvasClassRef.current = new Example(canvasObj);
+    canvasClassRef.current = new Example(canvasObj, userLanguage);
     // getGameCanvas(canvasObj);
   }
 
   const getGameCanvas = (canvasObj) => {
     switch(matchInfo.game) {
       case 'roshambo':
-        canvasClassRef.current = new Roshambo(canvasObj);
+        canvasClassRef.current = new Roshambo(canvasObj, userLanguage);
         break;
       default:
         console.log("CANVAS ERR: there is no canvas for the game", matchInfo.game);
@@ -40,12 +40,11 @@ const CanvasManager = forwardRef((props, ref) => {
   }
 
   // Done on loading and when there is an event
-  useEffect(() => {
-    if(!canvasClassRef || !canvasClassRef.current)
-      return
-    let test = canvasClassRef.current
-    test.setLanguage(userLanguage);
-  });
+  // useEffect(() => {
+  //   if(!canvasClassRef || !canvasClassRef.current)
+  //     return
+  //   let canvasClass = canvasClassRef.current
+  // });
 
   useImperativeHandle(ref, () => ({
     manageSpectateMessageStarted(bodyMessage) {
@@ -65,22 +64,12 @@ const CanvasManager = forwardRef((props, ref) => {
     },
   }));
 
-  const handleCanvasClick = (event) => {
-    canvasClassRef.current.handleCanvasClick(event)
-  };
-
-  const handleCanvasResize = () => {
-    canvasClassRef.current.handleCanvasResize();
-  }
-
 
   return (
     <div className={classes.container}>
       <Canvas
         className={classes.canvas}
         canvasRef={el => canvasRef.current = el}
-        onClick={handleCanvasClick}
-        onResize={handleCanvasResize}
       />
     </div>
   );

@@ -1,8 +1,10 @@
 export default class Example {
 
-  constructor(canvasObj) {
+  constructor(canvasObj, lang) {
     this.canvasObj = canvasObj;
     this.ctx = canvasObj.getContext("2d");
+    this.lang = lang;
+    this.canvasObj.onclick = (event) => this.handleCanvasClick(event)
     this.SCALE = 0.1;
     this.OFFSET = 80;
     this.coordinates = [];
@@ -53,14 +55,5 @@ export default class Example {
   clear() {
     // clear the canvas area
     this.ctx.clearRect( 0,0, this.canvasObj.width, this.canvasObj.height);
-  }
-
-  handleCanvasResize() {
-    let width = this.canvasObj.width;
-    let height = this.canvasObj.height
-  }
-
-  setLanguage(lang) {
-    this.lang = lang;
   }
 }
