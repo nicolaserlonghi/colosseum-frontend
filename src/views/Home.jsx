@@ -71,6 +71,7 @@ class Home extends React.Component {
       incorrectDataDialogError: false,
       errorFromServer: false,
       newGameDialogStatus: false,
+      newGameDialogAdvancedSettings: false,
       newGameDialogData: {
         name: null,
         game: null,
@@ -293,26 +294,31 @@ class Home extends React.Component {
             }}
           />
           {/* verification input */}
-          <TextField
-            margin="dense"
-            label={this.context.dictionary.home.newGameInputVerification}
-            value={this.state.newGameDialogData.verification}
-            onChange={event => this.handleNewGameDialogInputChange("verification", event)}
-            type={this.state.verificationVisible ? 'text' : 'password'}
-            fullWidth
-            className={classes.dialogTextField}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={this.showVerification}
-                  >
-                    {this.state.verificationVisible ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              )
-            }}
-          />
+          {
+            this.state.newGameDialogAdvancedSettings ?
+              <TextField
+                margin="dense"
+                label={this.context.dictionary.home.newGameInputVerification}
+                value={this.state.newGameDialogData.verification}
+                onChange={event => this.handleNewGameDialogInputChange("verification", event)}
+                type={this.state.verificationVisible ? 'text' : 'password'}
+                fullWidth
+                className={classes.dialogTextField}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={this.showVerification}
+                      >
+                        {this.state.verificationVisible ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }}
+              />
+            :
+              null
+          }
           {/* Args */}   
           {
             this.state.argsElement.map((item, index) => (
@@ -401,6 +407,15 @@ class Home extends React.Component {
         </DialogContent>
           {/* Action buttons */}
         <DialogActions>
+          <Button 
+            className={classes.buttonPrimaryDialog}
+            onClick={() => this.setState({
+              newGameDialogAdvancedSettings: !this.state.newGameDialogAdvancedSettings
+            })}
+          >
+            { this.context.dictionary.general.advanced }
+          </Button>
+          <div style={{flex: '1 0 0'}} />
           <Button 
             className={classes.buttonPrimaryDialog}
             onClick={() => this.newGameDialogHandle()}
@@ -822,7 +837,7 @@ class Home extends React.Component {
   newGameDialogHandle() {
     let status = this.state.newGameDialogStatus;
     this.resetNewGameDialog();
-    this.setState({ newGameDialogStatus: !status });
+    this.setState({ newGameDialogStatus: !status, newGameDialogAdvancedSettings: false });
   }
 
   resetNewGameDialog() {
