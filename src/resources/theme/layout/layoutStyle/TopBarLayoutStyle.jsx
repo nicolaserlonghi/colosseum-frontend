@@ -1,4 +1,4 @@
-import Colors from 'resources/Colors.js'
+import colors from 'resources/Colors.js'
 
 const topBarLayoutStyle = theme => ({
   root: {
@@ -6,12 +6,12 @@ const topBarLayoutStyle = theme => ({
   },
 
   appBar: {
-    backgroundColor: Colors.backgroundAppBar,
+    backgroundColor: colors.backgroundAppBar,
     height: '64px',
   },
 
   appBarTitle: {
-    color: Colors.textAppBar,
+    color: colors.textAppBar,
     flexGrow: 1,
     fontFamily: 'Roboto'
   },
@@ -33,26 +33,40 @@ const topBarLayoutStyle = theme => ({
     marginBottom: '100px',
   },
 
-  cardHeaderContainer: {
-    [theme.breakpoints.down('xs')]: {
-      width: '100%',
-      padding: 0
-    },
-  },
-  
   menu: {
-    color: Colors.textMenu,
+    color: colors.textMenu,
   },
 
   menuIcon: {
-    backgroundColor: Colors.white,
+    backgroundColor: colors.white,
     marginRight: '10px'
   },
 
-  languageMenu: {
-    color: Colors.textAppBar, 
+  dialogTextField: {
+    fontFamily:"Roboto",
+    "& label.Mui-focused": {
+      color: colors.textButtonDialog,
+    },
+    "& .MuiInput-underline:after": {
+      borderBottomColor: colors.textButtonDialog,
+    }
+  },
+
+  buttonPrimaryDialog: {
+    color: colors.textButtonDialog,
     fontSize: '15px',
+    fontWeight: 500,
+    fontFamily:"Roboto",
     textTransform: 'none',
+  },
+
+  errorText: {
+    fontSize: '16px',
+    fontWeight: '700',
+    fontFamily:"Roboto",
+    color: colors.errorText,
+    textAlign: 'left',
+    marginTop: '10px'
   },
 });
 

@@ -1,7 +1,8 @@
-import { w3cwebsocket as W3CWebSocket } from "websocket"
+import { w3cwebsocket as W3CWebSocket } from "websocket";
 
-import Configuration from 'config.js'
-import Utils from 'helpers/Utils.js'
+import Configuration from 'config.js';
+import Utils from 'helpers/Utils.js';
+import Constants from 'Constants.js';
 
 
 class WebSocketManager {
@@ -68,6 +69,9 @@ class WebSocketManager {
   }
 
   getUrl() {
+    let userUrl = window.sessionStorage.getItem(Constants.serverUrlKey);
+    if(userUrl)
+      return userUrl;
     let url = this.protocol +  this.ip;
     if(this.port)
       url += ":" + this.port;

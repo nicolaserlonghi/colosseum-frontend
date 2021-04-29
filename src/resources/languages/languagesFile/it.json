@@ -8,6 +8,7 @@
     "no": "No",
     "ok": "Ok",
     "advanced": "Avanzate",
+    "default": "Predefinite",
     "edit": "Modifica",
     "close": "Chiudi",
     "back": "Indietro",
@@ -31,6 +32,12 @@
     "errorIncorrectData": "I dati inseriti non sono corretti!",
     "errorEmptyField": "Alcuni campi non sono stati compilati!",
     "errorNoConnection": "Errore di rete!"
+  },
+
+  "topBar": {
+    "settingsDialogTitle": "Impostazioni",
+    "settingsDialogInputServer": "Indirizzo del server",
+    "urlError": "Inserisci un url valido"
   },
 
   "home": {

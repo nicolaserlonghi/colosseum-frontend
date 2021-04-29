@@ -8,6 +8,7 @@
     "no": "No",
     "ok": "Ok",
     "advanced": "Advanced",
+    "default": "Default",
     "edit": "Edit",
     "close": "Close",
     "back": "Back",
@@ -31,6 +32,12 @@
     "errorIncorrectData": "Insert incorrect data!",
     "errorEmptyField": "Empty field!",
     "errorNoConnection": "Network error!"
+  },
+
+  "topBar": {
+    "settingsDialogTitle": "Settings",
+    "settingsDialogInputServer": "Server address",
+    "urlError": "Insert a valid url"
   },
 
   "home": {

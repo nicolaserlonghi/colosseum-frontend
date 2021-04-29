@@ -15,6 +15,8 @@ const constants = {
         en: "gb",
         it: "it",
     },
+
+    serverUrlKey: "serverUrlKey",
 };
 
 export default constants;
