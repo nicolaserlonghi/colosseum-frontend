@@ -12,6 +12,7 @@ import 'typeface-roboto'
 
 import routes from 'security/routes.js';
 import TopBarLayout from 'resources/theme/layout/TopBarLayout.jsx'
+import SaveSpaceLayout from 'resources/theme/layout/SaveSpaceLayout.jsx'
 import Constants from 'Constants.js';
 import Colors from 'resources/Colors.js';
 
@@ -26,6 +27,15 @@ const theme = createMuiTheme({
 	}
 });
 
+const getComponent = (componentName) => {
+	switch(componentName) {
+		case 'topBar':
+			return TopBarLayout;
+		case 'saveSpaceLayout':
+			return SaveSpaceLayout;
+	}
+}
+
 (async () => {
 	ReactDOM.render(
 		<ThemeProvider theme={theme}>
@@ -34,7 +44,7 @@ const theme = createMuiTheme({
 					<Switch>
 						{
 							routes.map((item, key) => {
-								return <Route key={key} path={item.path} component={TopBarLayout}/>
+								return <Route key={key} path={item.path} component={getComponent(item.layout)}/>
 							})
 						}
 						<Redirect from="/" to={Constants.defaultHomePage}  />

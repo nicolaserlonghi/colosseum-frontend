@@ -12,7 +12,7 @@ const dashboardRoutes = [
     path: '/spectate',
     name: 'Spectate',
     component: Spectate,
-    layout: 'topBar',
+    layout: 'saveSpaceLayout',
   },
 ];
 

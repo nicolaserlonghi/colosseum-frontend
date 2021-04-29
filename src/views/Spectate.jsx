@@ -10,8 +10,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import TextField from '@material-ui/core/TextField';
-import InputAdornment from '@material-ui/core/InputAdornment';
-
 import ExitToAppRounded from '@material-ui/icons/ExitToAppRounded';
 import Info from "@material-ui/icons/InfoOutlined";
 
@@ -383,8 +381,8 @@ class Spectate extends React.Component {
                     { this.state.matchInfo.name || "" }
                   </Typography>
                 </Grid>
-                <Hidden smDown><Grid item xs={2} /></Hidden>
-                <Grid item xs={2}>
+                <Hidden smDown><Grid item sm={2} /></Hidden>
+                <Grid item xs={12} sm={2}>
                   <Button
                     fullWidth
                     className={classes.buttonPrimary}
@@ -407,11 +405,7 @@ class Spectate extends React.Component {
               </Grid>
               <br/>
               {/* Canvas Manager */}
-              <Grid container>
-                <Grid item xs={12}>
-                  <CanvasManager ref={this.canvasManager} matchInfo={this.state.matchInfo} />
-                </Grid>
-              </Grid>
+              <CanvasManager ref={this.canvasManager} matchInfo={this.state.matchInfo} />
             </React.Fragment>
           :
             null

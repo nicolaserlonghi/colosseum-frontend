@@ -16,10 +16,10 @@ export default class Example {
 
   ended() {}
 
-  async update(blobMessage) {
+  update(blobMessage) {
     // This is an example of how to convert it
-    let text = await (new Response(blobMessage)).text();
-    console.log('text: ', text);
+    // let text = await (new Response(blobMessage)).text();
+    // console.log('text: ', text);
   }
 
   handleCanvasClick(event) {
