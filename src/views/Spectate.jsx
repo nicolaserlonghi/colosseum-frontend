@@ -376,13 +376,13 @@ class Spectate extends React.Component {
           this.state.matchInfo ?
             <React.Fragment>
               <Grid container spacing={2}>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={6} lg={6}>
                   <Typography variant="h3" className={classes.title}>
                     { this.state.matchInfo.name || "" }
                   </Typography>
                 </Grid>
-                <Hidden smDown><Grid item sm={2} /></Hidden>
-                <Grid item xs={12} sm={2}>
+                <Hidden mdDown><Grid item sm={2} /></Hidden>
+                <Grid item xs={12} sm={3} md={3} lg={2}>
                   <Button
                     fullWidth
                     className={classes.buttonPrimary}
@@ -392,7 +392,7 @@ class Spectate extends React.Component {
                     {this.context.dictionary.spectate.buttonMatchInfo}
                   </Button>
                 </Grid>
-                <Grid item xs={12} sm={2}>
+                <Grid item xs={12} sm={3} md={3} lg={2}>
                   <Button
                     fullWidth
                     className={classes.buttonPrimary}
