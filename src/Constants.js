@@ -17,6 +17,7 @@ const constants = {
     },
 
     serverUrlKey: "serverUrlKey",
+    languageKey: "languageKey",
 };
 
 export default constants;

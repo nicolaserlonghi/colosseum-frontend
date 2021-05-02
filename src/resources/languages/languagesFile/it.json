@@ -79,7 +79,9 @@
     "matchInfoDialogNoConnectedLabel": "Nessun giocatore connesso",
     "matchInfoDialogNoArgsLabel": "Nessun parametro aggiuntivo impostato",
     "matchInfoDialogKeyHeader": "Chiave",
-    "matchInfoDialogValueHeader": "Valore"
+    "matchInfoDialogValueHeader": "Valore",
+    "networkErrorDialogTitle": "Errore di rete",
+    "networkErrorDialogMessage": "L'url inserito non è raggiungibile."
   },
   
   "spectate": {

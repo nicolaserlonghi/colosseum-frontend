@@ -32,6 +32,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import DialogContentText from '@material-ui/core/DialogContentText';
 
 import RightIcon from '@material-ui/icons/KeyboardArrowRight';
 import Visibility from '@material-ui/icons/Visibility';
@@ -94,6 +95,7 @@ class Home extends React.Component {
       lobbyListBackup: [],
       matchInfoDialogStatus: false,
       matchDialogInfo: null,
+      errorUrlDialogStatus: false,
     }
   }
 
@@ -108,6 +110,7 @@ class Home extends React.Component {
       this.setState({ gameList: result.GameList.games });
     } catch(err) {
       console.log('err: ', err);
+      this.setState({ loading: false, errorUrlDialogStatus: true });
     }
   }
 
@@ -122,6 +125,7 @@ class Home extends React.Component {
       }
     } catch(err) {
       console.log('err: ', err);
+      this.setState({ loading: false, errorUrlDialogStatus: true });
     }
   }
 
@@ -567,6 +571,32 @@ class Home extends React.Component {
       );
     }
 
+    const errorUrlDialog = (
+      <Dialog 
+        open={this.state.errorUrlDialogStatus} 
+        onClose={() => this.errorUrlDialogHandle()}
+        fullWidth={true}
+        // PaperProps={{className: classes.dialogPaper}}
+      >
+        <DialogTitle className={classes.dialogTitle}>
+          { this.context.dictionary.home.networkErrorDialogTitle }
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText className={classes.dialogTextField}>
+            { this.context.dictionary.home.networkErrorDialogMessage }
+          </DialogContentText>
+        </DialogContent>
+        {/* Action buttons */}
+        <DialogActions>
+          <Button 
+            className={classes.buttonPrimaryDialog}
+            onClick={() => this.errorUrlDialogHandle()}
+          >
+            { this.context.dictionary.general.ok }
+          </Button>
+        </DialogActions>
+      </Dialog>
+    );
 
     const headCells = [
       { id: "id", numeric: false, label: this.context.dictionary.home.tableHeaderId },
@@ -589,6 +619,7 @@ class Home extends React.Component {
         { gameListDialog } 
         { gameDetailsDialog } 
         { argsListDialog } 
+        { errorUrlDialog }
 
         <Grid container>
           <Grid item xs={12} sm={6}>
@@ -1037,6 +1068,11 @@ class Home extends React.Component {
       }
     }
     this.props.history.push('spectate', {"matchId": matchId});
+  }
+
+  errorUrlDialogHandle() {
+    let status = this.state.errorUrlDialogStatus;
+    this.setState({ errorUrlDialogStatus: !status });
   }
 }
 

@@ -79,7 +79,9 @@
     "matchInfoDialogNoConnectedLabel": "No players connected",
     "matchInfoDialogNoArgsLabel": "No additional parameters set",
     "matchInfoDialogKeyHeader": "Key",
-    "matchInfoDialogValueHeader": "Value"
+    "matchInfoDialogValueHeader": "Value",
+    "networkErrorDialogTitle": "Network error",
+    "networkErrorDialogMessage": "The url entered is not reachable."
   },
 
   "spectate": {

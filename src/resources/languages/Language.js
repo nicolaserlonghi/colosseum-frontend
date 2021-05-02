@@ -1,10 +1,15 @@
-import React, { useState, createContext, useContext } from 'react'
+import React, { useState, createContext, useContext } from 'react';
 
-import detectBrowserLanguage from 'detect-browser-language'
+import detectBrowserLanguage from 'detect-browser-language';
 
-import { languageOptions, dictionaryList } from 'resources/languages/FileLanguageIndex.js'
+import Constants from 'Constants.js';
+import { languageOptions, dictionaryList } from 'resources/languages/FileLanguageIndex.js';
+
 
 const getBroserLanguage = () => {
+  let savedLanguage = window.sessionStorage.getItem(Constants.languageKey);
+  if(savedLanguage)
+    return savedLanguage;
   let detected = detectBrowserLanguage();
   detected = detected.substring(0, 2);
   return detected;
@@ -28,7 +33,7 @@ export function LanguageProvider({ children }) {
     userLanguageChange: selected => {
       const newLanguage = languageOptions[selected] ? selected : browserLanguage;
       setUserLanguage(newLanguage);
-      window.localStorage.setItem('rcml-lang', newLanguage);
+      window.sessionStorage.setItem(Constants.languageKey, newLanguage);
     }
   };
 
