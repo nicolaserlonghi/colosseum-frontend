@@ -596,7 +596,7 @@ class Home extends React.Component {
               {this.context.dictionary.home.title}
             </Typography>
           </Grid>
-          <Hidden smDown><Grid item xs={3} /></Hidden>
+          <Hidden xsDown><Grid item xs={3} /></Hidden>
           <Grid item xs={12} sm={3}>
             <Button
               fullWidth

@@ -39,7 +39,6 @@ const topBarLayoutStyle = theme => ({
 
   menuIcon: {
     backgroundColor: colors.white,
-    marginRight: '10px'
   },
 
   dialogTextField: {
@@ -67,6 +66,12 @@ const topBarLayoutStyle = theme => ({
     color: colors.errorText,
     textAlign: 'left',
     marginTop: '10px'
+  },
+
+  appBarUrl: {
+    color: colors.textAppBar,
+    fontFamily: 'Roboto',
+    marginTop: '8px'
   },
 });
 

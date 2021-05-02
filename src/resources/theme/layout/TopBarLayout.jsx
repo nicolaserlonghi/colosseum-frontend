@@ -17,6 +17,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
+import Hidden from '@material-ui/core/Hidden';
 
 import Settings from '@material-ui/icons/SettingsRounded';
 
@@ -164,6 +165,18 @@ class TopBarLayout extends React.Component {
             {this.context.dictionary.project.name}
           </Typography>
           
+          <Hidden smDown>
+            <Typography variant="subtitle1" className={classes.appBarUrl}>
+              { window.sessionStorage.getItem(Constants.serverUrlKey) || this.getDefualtUrl() }
+            </Typography>
+          </Hidden>
+          <IconButton
+            edge="end"
+            onClick={() => this.settingsDialogHandle()}
+            className={classes.menuButton}
+          >
+            <Settings fontSize="large"/>
+          </IconButton>
           <IconButton
             edge="end"
             ref={anchorEl} 
@@ -207,14 +220,6 @@ class TopBarLayout extends React.Component {
               )})
             }
           </Menu>
-
-          <IconButton
-            edge="end"
-            onClick={() => this.settingsDialogHandle()}
-            className={classes.menuButton}
-          >
-            <Settings fontSize="large"/>
-          </IconButton>
         </Toolbar>
       </AppBar>
     )
