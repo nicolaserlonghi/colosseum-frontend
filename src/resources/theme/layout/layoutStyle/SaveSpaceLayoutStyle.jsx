@@ -3,6 +3,7 @@ import Colors from 'resources/Colors.js'
 const saveSpaceLayoutStyle = theme => ({
   root: {
     display: 'flex',
+    overflow: 'hidden'
   },
 
   content: {
