@@ -426,7 +426,7 @@ class Home extends React.Component {
             className={classes.buttonPrimaryDialog}
             onClick={() => this.createNewGame()}
           >
-            { this.context.dictionary.general.save }
+            { this.context.dictionary.general.create }
           </Button>
         </DialogActions>
       </Dialog>
